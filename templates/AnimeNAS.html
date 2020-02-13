@@ -43,7 +43,7 @@
     .Anime_Poster_Container{
 
         position: absolute;
-        top: 130%;
+        top: 30%;
         right: 0px;
 
         overflow-x: auto;
@@ -68,6 +68,16 @@
         background-color: black;
     }
 
+    .Favorites{
+
+        position: absolute;
+        top: 100%;
+        right: 0px;
+        background-color: #1b262c;
+
+        height: 100%;
+        width: 100%;
+    }
 
     .Watching{
 
@@ -146,7 +156,7 @@
 
         position: absolute;
         right: 20px;
-        top: 188%;
+        top: 88%;
     }
 
     .Subtract_button{
@@ -155,20 +165,20 @@
         width: calc(40px + 1vw);
         height: calc(40px + 1vw);
 
-        font-size: calc(60px + 1vw);
+        font-size: calc(40px + 1vw);
         text-align: center;
         color: #345f7c;
         text-decoration: none;
 
         position: absolute;
         right: 20px;
-        top: 195%;
+        top: 95%;
     }
 
 
     h1{
         position: absolute;
-        top: 110%;
+        top: 10%;
         left: 20px;
 
         color: #345f7c;
@@ -207,20 +217,22 @@
         
     </div>
 
-    <a href="">
-        <h1>Favorited Anime</h1>
-    </a>
-    <div class="Anime_Poster_Container">
+    <div class="Favorites">
 
-        {% for favorite in favorites%}
-            <img class="Anime_Poster" src="{{favorite.cover_path}}" alt="{{favorite.anime_id}}">
-        {%endfor%}
-    
-    </div>
-    
+        <a href="">
+            <h1>Favorited Anime</h1>
+        </a>
+        <div class="Anime_Poster_Container">
+
+            {% for favorite in favorites%}
+                <img class="Anime_Poster" src="{{favorite.cover_path}}" alt="{{favorite.anime_id}}">
+            {%endfor%}
+        
+        </div>
+        
         <a class="Add_button" href="/Animes/add_favorite">+</a>  
-        <a class="Subtract_button" href="/Animes/remove_favorite">-</a>
-
+        <a class="Subtract_button" href="/Animes/remove_favorite">_</a>
+    </div>
 
     <div class="Watching">
         <a href="https://www.youtube.com/watch?v=fiyYoe678yI">
@@ -234,7 +246,7 @@
         </div>
 
         <a class="Add_button" style="top: 83%; color: #1b262c;" href="/Animes/add_favorite">+</a>  
-        <a class="Subtract_button" style="top: 88%; color: #1b262c;" href="/Animes/remove_favorite">-</a>
+        <a class="Subtract_button" style="top: 88%; color: #1b262c;" href="/Animes/remove_favorite">_</a>
 
     </div>
 
