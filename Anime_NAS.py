@@ -110,7 +110,7 @@ def get_covers_from_ids(ids:list):
         cover_path = convert_tuple(data=cover_path, keys=['cover_path'],return_type='DICT')
 
         # format the dict and append it to the list
-        anime_dict = {'anime_id': anime_id, 'cover_path': cover_path}
+        anime_dict = {'anime_id': anime_id, 'cover_path': cover_path['cover_path']}
         anime_data.append(anime_dict)
 
 
@@ -156,6 +156,12 @@ def animes_main_page():
         watching_list.append(watching_dict)
 
     
+    # Create a new list with all the info from the anime, including cover_path
+    watching_list = [{'anime_id':anime_data['anime_id'], 'anime_title':anime_data['anime_title'],'cover_path': get_covers_from_ids([anime_data.get('anime_id')])[0]['cover_path']} for anime_data in watching_list]
+
+
+
+
 
 
 
