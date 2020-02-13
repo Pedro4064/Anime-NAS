@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import mysql.connector
 import json
 
@@ -48,6 +48,7 @@ def convert_tuple(data:tuple, keys:list, return_type:'The type of return expecte
     elif return_type == 'DICT':
         return anime_dict
 
+
 def get_all_anime_in_database():
 
     # Get the necessary tools to acess the db
@@ -68,11 +69,14 @@ def get_favorited_anime():
     data_base,myCursor = sql_connector()
 
     # Get the list of favorited anime
-    myCursor.execute('SELECT * FROM Favorites')
+    myCursor.execute('SELECT anime_id FROM Favorites')
     raw_favorites = myCursor.fetchall()
 
     # format the data
-    favorites = convert_tuple(data = raw_favorites, keys = ['anime_id','cover_path'], return_type = 'LIST')
+    favorites = convert_tuple(data = raw_favorites, keys = ['anime_id'], return_type = 'LIST')
+
+    # Get a new list of dicts that will have: anime_id and cover path
+    favorites = [get_covers_from_ids([anime_data['anime_id']])[0] for anime_data in favorites ]
 
     return favorites
 
@@ -116,6 +120,8 @@ def get_covers_from_ids(ids:list):
 
     # return the list with all the dicts
     return anime_data
+
+
 
 
 @app.route('/Animes')
@@ -205,11 +211,10 @@ def animes_main_page():
 
 
     # render the html
-    return render_template('AnimeNAS.html', favorites = favorites)
-
+    return render_template('AnimeNAS.html', favorites = favorites, watching_list = watching_list)
 
 @app.route('/Animes/<Mode>')
-def favorites(Mode):
+def edit_favorites(Mode):
 
     if Mode == 'add_favorite':
 
@@ -227,12 +232,40 @@ def favorites(Mode):
         anime_ids = [anime['anime_id'] for anime in favorites]
 
         # get the titles for those ids
-        favorites = get_titles_from_ids(ids = anime_ids)
+        favorites = get_covers_from_ids(ids = anime_ids)
 
         print(json.dumps(favorites,indent=4))
-        return render_template('Favorites.html', Mode = 'Remove',favorites = favorites)
+        return render_template('RemoveFavorites.html', Mode = 'Remove',favorites = favorites)
     
+@app.route('/Animes/add_to_favorites/anime_id=<anime_id>')
+def add_to_favorites(anime_id):
 
+    # Get the tools to access the db
+    database,myCursor = sql_connector()
+
+    # Execute the command
+    myCursor.execute('INSERT INTO Favorites(anime_id) VALUES(%d)' %(anime_id))
+
+    # Send the command
+    database.commit()
+
+    # redirect to the main page
+    return redirect('/Animes')
+
+@app.route('/Animes/delete_from_favorites/anime_id=<anime_id>')
+def delete_from_favorites(anime_id):
+
+    # Get the tools to access the db
+    database,myCursor = sql_connector()
+
+    # Execute the command
+    myCursor.execute('DELETE FROM Favorites WHERE anime_id = %d' %(int(anime_id)))
+
+    # Send the command
+    database.commit()
+
+    # redirect to the main page
+    return redirect('/Animes')
 
 
 if __name__ == '__main__':

@@ -12,25 +12,25 @@ database,myCursor = sql_connector()
 
 ################################################################################################################################################################
 
-# # Get all the data from the Twistmoe website
-# twist_moe = Moe()
-# website_data = twist_moe.get_all_animes_in_database()
+# Get all the data from the Twistmoe website
+twist_moe = Moe()
+website_data = twist_moe.get_all_animes_in_database()
 
-# # the mysql command
-# command = "INSERT INTO Animes (anime_title, main_url) VALUES ('%s','%s') "
+# the mysql command
+command = "INSERT INTO Animes (anime_title, main_url) VALUES ('%s','%s') "
 
-# # populate the db
-# for anime in website_data:
+# populate the db
+for anime in website_data:
 
-#     # Format the command
-#     # command = command % (anime['anime_title'],anime['main_url'])
+    # Format the command
+    # command = command % (anime['anime_title'],anime['main_url'])
 
-#     # Send the command
-#     myCursor.execute(command % (anime['anime_title'].replace("'","").replace('(','').replace(')',''),anime['main_url']))
+    # Send the command
+    myCursor.execute(command % (anime['anime_title'].replace("'","").replace('(','').replace(')',''),anime['main_url']))
 
 
-#     # commit the changes made to the db
-#     database.commit()
+    # commit the changes made to the db
+    database.commit()
 
 ################################################################################################################################################################
 
