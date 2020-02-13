@@ -220,7 +220,7 @@ def edit_favorites(Mode):
 
         animes = get_all_anime_in_database()
         print(json.dumps(animes,indent=4))
-        return render_template('Favorites.html', Mode = 'Add',favorites = animes)
+        return render_template('AddFavorites.html', Mode = 'Add',favorites = animes)
 
 
     elif Mode == 'remove_favorite':
@@ -244,7 +244,7 @@ def add_to_favorites(anime_id):
     database,myCursor = sql_connector()
 
     # Execute the command
-    myCursor.execute('INSERT INTO Favorites(anime_id) VALUES(%d)' %(anime_id))
+    myCursor.execute('INSERT INTO Favorites(anime_id) VALUES(%d)' %(int(anime_id)))
 
     # Send the command
     database.commit()
