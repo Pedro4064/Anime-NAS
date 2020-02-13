@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites</title>
+</head>
+
+<style>
+
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
+
+    h1{
+        position: absolute;
+        top: 10%;
+        left: 20px;
+
+        color: #345f7c;
+        font-family: 'Questrial', sans-serif;
+        font-size: calc(20px + 1vw);
+
+    }
+
+    .Anime_Poster_Container{
+
+        position: absolute;
+        top: 30%;
+        right: 0px;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+
+        height: auto;
+        width: 99%;
+        /* background-color: aqua; */
+    }
+
+        .Anime_Poster{
+
+        display: inline-block;
+
+        min-height: 25%;
+        height: 50vh;
+
+        /* height: 100%; */
+
+        border-radius: 5%;
+        background-color: black;
+        }
+
+    html{
+        /* background-color: rgb(28, 31, 34);
+         */
+         background-color: #1b262c;
+    }
+</style>
+<body>
+
+    {%if Mode == "Remove"%}
+    <h1>{{Mode}} Favorite</h1>
+    {%endif%}
+
+
+    <div class="Anime_Poster_Container">
+
+        {% for favorite in favorites%}
+            <a href="/Animes/delete_from_favorites/anime_id={{favorite.anime_id}}">
+                <img class="Anime_Poster" src="{{favorite.cover_path}}" alt="{{favorite.anime_id}}">
+            </a>
+            
+        {%endfor%}
+
+    </div>
+    
+</body>
+</html>

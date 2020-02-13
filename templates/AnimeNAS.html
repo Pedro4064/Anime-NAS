@@ -40,7 +40,7 @@
         text-align: center;
     }
 
-    .Favorites{
+    .Anime_Poster_Container{
 
         position: absolute;
         top: 130%;
@@ -55,7 +55,7 @@
         /* background-color: aqua; */
     }
 
-    .Favorited_anime{
+    .Anime_Poster{
         
         display: inline-block;
         
@@ -210,10 +210,10 @@
     <a href="">
         <h1>Favorited Anime</h1>
     </a>
-    <div class="Favorites">
+    <div class="Anime_Poster_Container">
 
         {% for favorite in favorites%}
-            <img class="Favorited_anime" src="{{favorite.cover_path}}" alt="{{favorite.anime_id}}">
+            <img class="Anime_Poster" src="{{favorite.cover_path}}" alt="{{favorite.anime_id}}">
         {%endfor%}
     
     </div>
@@ -227,19 +227,10 @@
             <h1 style="color: #1b262c; top: 10%;">Watching</h1>
         </a>
 
-        <div class="grid">
-            <p>Violet Evergarden</p>
-            <p>Darling in the Franxx</p>
-            <p>Boku no Hero s.4</p>
-            <p>Is the Order a Rabbit??</p>
-            <p>Violet Evergarden</p>
-            <p>Ancient Magu's bride</p>
-            <p>Violet Evergarden</p>
-            <p>Darling in the Franxx</p>
-            <p>Boku no Hero s.4</p>
-            <p>Is the Order a Rabbit??</p>
-            <p>Violet Evergarden</p>
-            <p>Boku no Hero s.4</p>  
+        <div class="Anime_Poster_Container" style="top: 30%;">
+           {% for watching in watching_list%}
+                <img class="Anime_Poster" src="{{watching.cover_path}}" alt="{{watching.anime_id}}">
+           {%endfor%}
         </div>
 
     </div>
