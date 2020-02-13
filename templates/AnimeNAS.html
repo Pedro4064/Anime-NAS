@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
-    <link rel="icon" href="/Users/pedrocruz/Desktop/Programming/Python/Git/Anime-NAS/templates/images/BrowserLogo.png">
+    <link rel="icon" href="static/BrowserLogo.png">
     <title>Animes</title>
 </head>
 
@@ -76,7 +76,7 @@
         right: 0px;
 
         width: 100%;
-        height: 100%;
+        height: 110%;
 
         overflow-y: auto;
         background-color: #345f7c;
@@ -132,7 +132,7 @@
         right: 20px;
     }
 
-    #Add_button{
+    .Add_button{
 
         /* background-color: #345f7c; */
         border-radius: 50%;
@@ -146,10 +146,10 @@
 
         position: absolute;
         right: 20px;
-        top: 185%;
+        top: 188%;
     }
 
-    #Subtract_button{
+    .Subtract_button{
 
         border-radius: 50%;
         width: calc(40px + 1vw);
@@ -218,8 +218,8 @@
     
     </div>
     
-        <a id="Add_button" href="/Animes/add_favorite">+</a>  
-        <a id="Subtract_button" href="/Animes/remove_favorite">-</a>
+        <a class="Add_button" href="/Animes/add_favorite">+</a>  
+        <a class="Subtract_button" href="/Animes/remove_favorite">-</a>
 
 
     <div class="Watching">
@@ -232,6 +232,9 @@
                 <img class="Anime_Poster" src="{{watching.cover_path}}" alt="{{watching.anime_id}}">
            {%endfor%}
         </div>
+
+        <a class="Add_button" style="top: 83%; color: #1b262c;" href="/Animes/add_favorite">+</a>  
+        <a class="Subtract_button" style="top: 88%; color: #1b262c;" href="/Animes/remove_favorite">-</a>
 
     </div>
 
@@ -255,6 +258,7 @@
           
         </div>
     </div>
+
 
 </body>
 </html>

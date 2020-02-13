@@ -268,6 +268,7 @@ def delete_from_favorites(anime_id):
     return redirect('/Animes')
 
 
+
 if __name__ == '__main__':
 
     app.run(debug=True, host='172.20.10.7')
