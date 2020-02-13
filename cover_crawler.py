@@ -30,9 +30,11 @@ class cover_api():
             # Parse the data and returnt the url for the cover
             json_data = json.loads(response.content.decode())
             cover_path = json_data['data'][0]['attributes']['posterImage']['large']
+            
+            # return the url
+            return cover_path
 
         except:
             print('[ERROR]',anime_title)
-            
-        # return the url
-        return cover_path
+
+        

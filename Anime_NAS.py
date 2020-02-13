@@ -76,7 +76,7 @@ def get_favorited_anime():
 
     return favorites
 
-def get_title_from_id(ids:list):
+def get_titles_from_ids(ids:list):
 
     # necessary tools for accessing the db
     data_base,myCursor = sql_connector()
@@ -93,6 +93,31 @@ def get_title_from_id(ids:list):
 
     return animes
 
+def get_covers_from_ids(ids:list):
+
+    # Get the connector to access the db
+    data_base,myCursor = sql_connector()
+    
+    # list that will hold all the dicts
+    anime_data = []
+
+    for anime_id in ids:
+
+        myCursor.execute('SELECT cover_path FROM Covers WHERE anime_id=%d' %(anime_id))
+        cover_path = myCursor.fetchall()
+
+        # format the data
+        cover_path = convert_tuple(data=cover_path, keys=['cover_path'],return_type='DICT')
+
+        # format the dict and append it to the list
+        anime_dict = {'anime_id': anime_id, 'cover_path': cover_path}
+        anime_data.append(anime_dict)
+
+
+    # return the list with all the dicts
+    return anime_data
+
+
 @app.route('/Animes')
 def animes_main_page():
 
@@ -102,6 +127,9 @@ def animes_main_page():
 
     # Get the database connector
     data_base,myCursor = sql_connector()
+
+
+
 
     # Get the watching list
     myCursor.execute('SELECT * FROM Watching')
@@ -193,7 +221,7 @@ def favorites(Mode):
         anime_ids = [anime['anime_id'] for anime in favorites]
 
         # get the titles for those ids
-        favorites = get_title_from_id(ids = anime_ids)
+        favorites = get_titles_from_ids(ids = anime_ids)
 
         print(json.dumps(favorites,indent=4))
         return render_template('Favorites.html', Mode = 'Remove',favorites = favorites)
