@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
+    <link rel="icon" href="/Users/pedrocruz/Desktop/Programming/Python/Git/Anime-NAS/templates/images/BrowserLogo.png">
+    <title>Animes</title>
+</head>
+
+<style>
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+    #Title{
+
+        position: absolute;
+        top: 250px;
+        /* max-width: 20%; */
+        /* left: 25%; */
+
+        
+        color: #1b262c;
+        font-family: 'Questrial', sans-serif;
+        font-size: calc(50px + 3vw);
+    }
+
+    .top_menu{
+        position: absolute;
+        top: 0px;
+        right: 0px;
+
+        /* background-color: rgb(245, 177, 52); */
+        background-color: #345f7c;
+        height: 100%;
+        width: 100%;
+
+        text-align: center;
+    }
+
+    .Favorites{
+
+        position: absolute;
+        top: 130%;
+        right: 0px;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+
+        height: auto;
+        width: 99%;
+        /* background-color: aqua; */
+    }
+
+    .Favorited_anime{
+        
+        display: inline-block;
+        
+        min-height: 25%;
+        height: 50vh;
+        
+        /* height: 100%; */
+
+        border-radius: 5%;
+        background-color: black;
+    }
+
+
+    .Watching{
+
+        position: absolute;
+        top: 210%;
+        right: 0px;
+
+        width: 100%;
+        height: 100%;
+
+        overflow-y: auto;
+        background-color: #345f7c;
+        /* background-image: linear-gradient(rgb(28, 31, 34), rgb(245, 177, 52)); */
+    }
+
+    .grid{
+
+        position: absolute;
+        top: 30%;
+        right: 10%;
+
+        display: grid;
+        grid-template-columns: auto auto auto;
+
+        /* background-color: white; */
+        
+        column-gap: 5px;
+        row-gap: 15fr;
+
+        text-align: center;
+
+        width: 80%;
+
+
+    }   
+
+    .Downloads{
+        position: absolute;
+        top: 310%;
+        right: 0px;
+
+        width: 100%;
+        height: 100%;
+    }
+     
+    .search_box{
+
+        color: white;
+        font-family: 'Questrial', sans-serif;
+        font-size: calc(10px + 1vw);
+
+        background-color:#1b262c;
+        border: #1b262c;
+        border-radius: 5px;
+
+        height: 5%;
+        width: 15%;
+        min-width: 150px;
+
+        position: absolute;
+        top: 90%;
+        right: 20px;
+    }
+
+    #Add_button{
+
+        /* background-color: #345f7c; */
+        border-radius: 50%;
+        width: calc(40px + 1vw);
+        height: calc(40px + 1vw);
+
+        font-size: calc(40px + 1vw);
+        text-align: center;
+        color: #345f7c;
+        text-decoration: none;
+
+        position: absolute;
+        right: 20px;
+        top: 185%;
+    }
+
+    #Subtract_button{
+
+        border-radius: 50%;
+        width: calc(40px + 1vw);
+        height: calc(40px + 1vw);
+
+        font-size: calc(60px + 1vw);
+        text-align: center;
+        color: #345f7c;
+        text-decoration: none;
+
+        position: absolute;
+        right: 20px;
+        top: 195%;
+    }
+
+
+    h1{
+        position: absolute;
+        top: 110%;
+        left: 20px;
+
+        color: #345f7c;
+        font-family: 'Questrial', sans-serif;
+        font-size: calc(20px + 1vw);
+
+    }
+
+    p{
+        font-family: 'Questrial', sans-serif;
+        font-size: calc(15px + 1.5vw); 
+        background-color: #1b262c;
+        color: #345f7c;
+        border-radius: 5px;
+        
+    }
+
+    p:hover{
+        opacity: 0.5;
+    }
+
+
+    html{
+        /* background-color: rgb(28, 31, 34);
+         */
+         background-color: #1b262c;
+    }
+
+</style>
+
+<body>
+    
+    <div class="top_menu">
+        
+        <h1 id="Title" >Anime N.A.S ¯\_(ツ)_/¯ </h1>
+        
+    </div>
+
+    <a href="">
+        <h1>Favorited Anime</h1>
+    </a>
+    <div class="Favorites">
+
+        {% for favorite in favorites%}
+            <img class="Favorited_anime" src="{{favorite.cover_path}}" alt="{{favorite.anime_id}}">
+        {%endfor%}
+    
+    </div>
+    
+        <a id="Add_button" href="/Animes/add_favorite">+</a>  
+        <a id="Subtract_button" href="/Animes/remove_favorite">-</a>
+
+
+    <div class="Watching">
+        <a href="https://www.youtube.com/watch?v=fiyYoe678yI">
+            <h1 style="color: #1b262c; top: 10%;">Watching</h1>
+        </a>
+
+        <div class="grid">
+            <p>Violet Evergarden</p>
+            <p>Darling in the Franxx</p>
+            <p>Boku no Hero s.4</p>
+            <p>Is the Order a Rabbit??</p>
+            <p>Violet Evergarden</p>
+            <p>Ancient Magu's bride</p>
+            <p>Violet Evergarden</p>
+            <p>Darling in the Franxx</p>
+            <p>Boku no Hero s.4</p>
+            <p>Is the Order a Rabbit??</p>
+            <p>Violet Evergarden</p>
+            <p>Boku no Hero s.4</p>  
+        </div>
+
+    </div>
+
+    <div class="Downloads" >
+        <a href="">
+            <h1 style="top: 15%;">Downloads</h1>
+        </a>
+        <div class="grid">
+            <p style="background-color: #345f7c; color: #1b262c;">Violet Evergarden</p>
+            <p style="background-color: #345f7c; color: #1b262c;">Darling in the Franxx</p>
+            <p style="background-color: #345f7c; color: #1b262c;">Boku no Hero s.4</p>
+            <p style="background-color: #345f7c; color: #1b262c;">Is the Order a Rabbit??</p>
+            <p style="background-color: #345f7c; color: #1b262c;">Violet Evergarden</p>
+            <p style="background-color: #345f7c; color: #1b262c;">Ancient Magu's bride</p>
+            <p style="background-color: #345f7c; color: #1b262c;">Violet Evergarden</p>
+            <p style="background-color: #345f7c; color: #1b262c;">Darling in the Franxx</p>
+            <p style="background-color: #345f7c; color: #1b262c;">Boku no Hero s.4</p>
+            <p style="background-color: #345f7c; color: #1b262c;">Is the Order a Rabbit??</p>
+            <p style="background-color: #345f7c; color: #1b262c;">Violet Evergarden</p>
+            <p style="background-color: #345f7c; color: #1b262c;">Boku no Hero s.4</p>
+          
+        </div>
+    </div>
+
+</body>
+</html>
