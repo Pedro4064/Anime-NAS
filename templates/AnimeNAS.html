@@ -116,7 +116,7 @@
 
     .Downloads{
         position: absolute;
-        top: 310%;
+        top: 320%;
         right: 0px;
 
         width: 100%;
@@ -175,7 +175,6 @@
         top: 95%;
     }
 
-
     h1{
         position: absolute;
         top: 10%;
@@ -222,6 +221,7 @@
         <a href="">
             <h1>Favorited Anime</h1>
         </a>
+
         <div class="Anime_Poster_Container">
 
             {% for favorite in favorites%}
@@ -245,8 +245,8 @@
            {%endfor%}
         </div>
 
-        <a class="Add_button" style="top: 83%; color: #1b262c;" href="/Animes/add_favorite">+</a>  
-        <a class="Subtract_button" style="top: 88%; color: #1b262c;" href="/Animes/remove_favorite">_</a>
+        <a class="Add_button" style="top: 83%; color: #1b262c;" href="/Animes/Watching/add_watching">+</a>  
+        <a class="Subtract_button" style="top: 88%; color: #1b262c;" href="/Animes/Watching/remove_watching">_</a>
 
     </div>
 
@@ -254,20 +254,14 @@
         <a href="">
             <h1 style="top: 15%;">Downloads</h1>
         </a>
+
+        <a class="Add_button" style="top: 5%; color: #345f7c;" href="/Animes/Downloads/add_download">+</a>  
+        <a class="Subtract_button" style="top: 10%; color: #345f7c;" href="/Animes/Watching/remove_watching">_</a>
+
         <div class="grid">
-            <p style="background-color: #345f7c; color: #1b262c;">Violet Evergarden</p>
-            <p style="background-color: #345f7c; color: #1b262c;">Darling in the Franxx</p>
-            <p style="background-color: #345f7c; color: #1b262c;">Boku no Hero s.4</p>
-            <p style="background-color: #345f7c; color: #1b262c;">Is the Order a Rabbit??</p>
-            <p style="background-color: #345f7c; color: #1b262c;">Violet Evergarden</p>
-            <p style="background-color: #345f7c; color: #1b262c;">Ancient Magu's bride</p>
-            <p style="background-color: #345f7c; color: #1b262c;">Violet Evergarden</p>
-            <p style="background-color: #345f7c; color: #1b262c;">Darling in the Franxx</p>
-            <p style="background-color: #345f7c; color: #1b262c;">Boku no Hero s.4</p>
-            <p style="background-color: #345f7c; color: #1b262c;">Is the Order a Rabbit??</p>
-            <p style="background-color: #345f7c; color: #1b262c;">Violet Evergarden</p>
-            <p style="background-color: #345f7c; color: #1b262c;">Boku no Hero s.4</p>
-          
+            {%for anime_downloaded in downloaded_list%}
+            <p style="background-color: #345f7c; color: #1b262c;">{{anime_downloaded.anime_title}}</p>
+            {%endfor%}
         </div>
     </div>
 

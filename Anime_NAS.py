@@ -172,28 +172,18 @@ def animes_main_page():
 
 
     # Get all the episodes downloaded
-    myCursor.execute('SELECT anime_id FROM Downloads')
+    myCursor.execute('SELECT anime_id FROM Animes_Download_List')
     raw_downloads_id = myCursor.fetchall()
 
     # format the data
-    raw_downloads_id = convert_tuple(data=raw_downloads_id, keys=['anime_id'], return_type='LIST')
-
-    # Remove duplicated data
-    anime_ids = []
-    for anime_data in raw_downloads_id:
-
-        # Get the id in the dict
-        anime_id = anime_data['anime_id']
-
-        # if the id was not already in the list, add it
-        if anime_id not in anime_ids:
-            anime_ids.append(anime_id)
-
+    anime_ids = convert_tuple(data=raw_downloads_id, keys=['anime_id'], return_type='LIST')
     
+
     # Get the title for the corresponding id
     downloaded_list = []
     for anime_id in anime_ids:
 
+        anime_id = anime_id['anime_id']
         anime_data = {}
 
         # get the title
@@ -201,18 +191,18 @@ def animes_main_page():
 
         # format data 
         raw_download_title = myCursor.fetchall()
-        download_title = convert_tuple(data=raw_download_title, keys='anime_title', return_type='DICT')
+        download_title = convert_tuple(data=raw_download_title, keys=['anime_title'], return_type='DICT')
 
         # format the deict 
-        anime_data = {'anime_id':anime_id, 'anime_title':download_title}
+        anime_data = {'anime_id':anime_id, 'anime_title':download_title['anime_title']}
 
         # append the data to the downloaded_list
         downloaded_list.append(anime_data)
 
-
+    print(json.dumps(downloaded_list, indent=4))
     # render the html
-    return render_template('AnimeNAS.html', favorites = favorites, watching_list = watching_list)
-
+    return render_template('AnimeNAS.html', favorites = favorites, watching_list = watching_list, downloaded_list = downloaded_list)
+    
 @app.route('/Animes/<Mode>')
 def edit_favorites(Mode):
 
@@ -268,6 +258,102 @@ def delete_from_favorites(anime_id):
     return redirect('/Animes')
 
 
+
+@app.route('/Animes/Watching/<Mode>')
+def edit_watching(Mode):
+
+    if Mode == 'add_watching':
+    
+        animes = get_all_anime_in_database()
+
+        print(json.dumps(animes,indent=4))
+        return render_template('AddWatching.html', Mode = 'Add',animes = animes)
+
+
+    elif Mode == 'remove_watching':
+        
+        # Get the tools to access the db
+        database,myCursor = sql_connector()
+
+        # Get the list of all anime in the watching table
+        myCursor.execute('SELECT * FROM Watching')
+        watching_ids = myCursor.fetchall()
+
+        # format the data
+        watching_ids = convert_tuple(data=watching_ids, keys=['anime_id'], return_type='LIST')
+        
+
+        # Get a list with all the ids
+        watching_ids = [anime_data['anime_id'] for anime_data in watching_ids]
+
+        # Get a list with dicts that contain: 'anime_id' and 'cover_path'
+        anime_data = get_covers_from_ids(ids=watching_ids)
+        print(json.dumps(anime_data, indent=4))
+
+        return render_template('RemoveWatching.html', Mode = 'Remove', animes = anime_data)
+
+@app.route('/Animes/add_to_watching/anime_id=<anime_id>')
+def add_to_watching(anime_id):
+
+    # Get the tools to access the db
+    database,myCursor = sql_connector()
+
+    # Execute the command
+    myCursor.execute('INSERT INTO Watching(anime_id) VALUES(%d)' %(int(anime_id)))
+
+    # Send the command
+    database.commit()
+
+    # redirect to the main page
+    return redirect('/Animes')
+
+@app.route('/Animes/delete_from_watching/anime_id=<anime_id>')
+def delete_from_watching(anime_id):
+
+    # Get the tools to access the db
+    database,myCursor = sql_connector()
+
+    # Execute the command
+    myCursor.execute('DELETE FROM Watching WHERE anime_id = %d' %(int(anime_id)))
+
+    # Send the command
+    database.commit()
+
+    # redirect to the main page
+    return redirect('/Animes')
+
+
+
+@app.route('/Animes/Downloads/<Mode>')
+def edit_downloads(Mode):
+
+
+    if Mode == 'add_download':
+    
+        animes = get_all_anime_in_database()
+
+        print(json.dumps(animes,indent=4))
+        return render_template('AddDownloads.html', Mode = 'Add',animes = animes)
+
+
+    elif Mode == 'remove_download':
+
+        pass
+
+@app.route('/Animes/add_to_download/anime_id=<anime_id>')
+def add_to_download(anime_id):
+
+    # Get the tools to access the db
+    database,myCursor = sql_connector()
+
+    # Execute the command
+    myCursor.execute('INSERT INTO Animes_Download_List(anime_id) VALUES(%d)' %(int(anime_id)))
+
+    # Send the command
+    database.commit()
+
+    # redirect to the main page
+    return redirect('/Animes')
 
 if __name__ == '__main__':
 

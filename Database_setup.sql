@@ -18,3 +18,6 @@ CREATE TABLE Watching (anime_id INT(10) NOT NULL, FOREIGN KEY(anime_id) REFERENC
 
 -- Create the table that will hold the id and cover path for all the anime
 CREATE TABLE Covers (anime_id INT(10) NOT NULL,cover_path VARCHAR(240) , FOREIGN KEY(anime_id) REFERENCES Animes(anime_id));
+
+-- Create a table that will hold the ids for all anime marked as downloaded
+CREATE TABLE Animes_Download_List (anime_id INT(10) NOT NULL, FOREIGN KEY(anime_id) REFERENCES Animes(anime_id));

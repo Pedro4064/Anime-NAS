@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="static/BrowserLogo.png">
+    <title>Downlads</title>
+</head>
+
+<style>
+
+    h1{
+        position: absolute;
+        top: 10%;
+        left: 20px;
+
+        color: #345f7c;
+        font-family: 'Questrial', sans-serif;
+        font-size: calc(20px + 1vw);
+
+    }
+
+    p{
+        position: relative;
+        top: 200px;
+        left: 10%;
+        
+        font-family: 'Questrial', sans-serif;
+        font-size: calc(15px + 1.5vw); 
+        text-align: left;
+
+        background-color: #345f7c; 
+        color: #1b262c;
+
+        border-radius: 5px;
+        max-width: 80%;
+
+        text-decoration: none;
+    }
+
+    p:hover{
+        opacity: 0.5;
+    }
+
+
+    html{
+        /* background-color: rgb(28, 31, 34);
+         */
+         background-color: #1b262c;
+    }
+
+</style>
+<body>
+
+    {%if Mode%}
+    <h1>{{Mode}} Downlads</h1>
+    {%endif%}
+
+
+    {%for anime in animes%}
+    <a href="/Animes/add_to_download/anime_id={{anime.anime_id}}" style="text-decoration: none;">
+        <p>• {{anime.anime_title}}</p>
+    </a>
+    {%endfor%}
+
+
+</body>
+</html>

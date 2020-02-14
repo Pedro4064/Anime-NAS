@@ -63,15 +63,15 @@
 <body>
 
     {%if Mode == "Remove"%}
-    <h1>{{Mode}} Favorite</h1>
+    <h1>{{Mode}} Watching</h1>
     {%endif%}
 
 
     <div class="Anime_Poster_Container">
 
-        {% for favorite in favorites%}
-            <a href="/Animes/delete_from_favorites/anime_id={{favorite.anime_id}}">
-                <img class="Anime_Poster" src="{{favorite.cover_path}}" alt="{{favorite.anime_id}}">
+        {% for anime in animes%}
+            <a href="/Animes/delete_from_watching/anime_id={{anime.anime_id}}">
+                <img class="Anime_Poster" src="{{anime.cover_path}}" alt="{{anime.anime_id}}">
             </a>
             
         {%endfor%}
