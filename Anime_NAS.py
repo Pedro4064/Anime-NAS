@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect
 import mysql.connector
 import json
-
+import subprocess
+import sys 
 
 # Create a flask instance
 app = Flask(__name__)
@@ -200,7 +201,13 @@ def animes_main_page():
         downloaded_list.append(anime_data)
 
     print(json.dumps(downloaded_list, indent=4))
+    
+    #################### Use to call another python script (the one to download) #########################
+    # commands = ["/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7", "/Users/pedrocruz/Desktop/Programming/Python/Git/Anime-NAS/potato.py", "asdasdas"]
+    # subprocess.Popen(commands,  stdout=subprocess.PIPE)
     # render the html
+    ######################################################################################################
+
     return render_template('AnimeNAS.html', favorites = favorites, watching_list = watching_list, downloaded_list = downloaded_list)
     
 @app.route('/Animes/<Mode>')

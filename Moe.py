@@ -12,7 +12,7 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
 
         # Added the headless option 
         self.options = webdriver.chrome.options.Options()
-        self.options.add_argument('--headless')
+        # self.options.add_argument('--headless')
 
         # Initialize the web driver
         self.driver = webdriver.Chrome(driverPath,options=self.options)
@@ -103,7 +103,8 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
                     print(url)
 
             except:
-                continue
+                break
+                # continue
         
 
         #  Go to each url and get the raw url 
