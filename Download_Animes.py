@@ -16,9 +16,6 @@ database,MyCursor = Anime_NAS.sql_connector()
 # Get the anime_id that was passed as a terminal _
 anime_id = int(sys.argv[1])
 
-# Add the anime to the downloads list
-MyCursor.execute('INSERT INTO Animes_Download_List(anime_id) VALUES(%d)' %(anime_id))
-
 # Get the url from the anime
 MyCursor.execute('SELECT main_url,anime_title FROM Animes WHERE anime_id = %d' %(anime_id))
 raw_data = MyCursor.fetchall()
