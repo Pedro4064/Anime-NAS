@@ -225,7 +225,9 @@
         <div class="Anime_Poster_Container">
 
             {% for favorite in favorites%}
-                <img class="Anime_Poster" src="{{favorite.cover_path}}" alt="{{favorite.anime_id}}">
+                <a href="/Animes/Play/anime_id={{favorite.anime_id}}/episode=1">
+                    <img class="Anime_Poster" src="{{favorite.cover_path}}" alt="{{favorite.anime_id}}">
+                </a>
             {%endfor%}
         
         </div>
@@ -241,7 +243,9 @@
 
         <div class="Anime_Poster_Container" style="top: 30%;">
            {% for watching in watching_list%}
-                <img class="Anime_Poster" src="{{watching.cover_path}}" alt="{{watching.anime_id}} " title="{{watching.anime_title}}">
+                <a href="/Animes/Play/anime_id={{watching.anime_id}}/episode=1">
+                    <img class="Anime_Poster" src="{{watching.cover_path}}" alt="{{watching.anime_id}} " title="{{watching.anime_title}}">
+                </a>
            {%endfor%}
         </div>
 
