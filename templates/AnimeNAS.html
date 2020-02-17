@@ -10,9 +10,9 @@
 
 <style>
 
-::-webkit-scrollbar {
-    width: 0px;
-}
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
 
     #Title{
 
@@ -241,7 +241,7 @@
 
         <div class="Anime_Poster_Container" style="top: 30%;">
            {% for watching in watching_list%}
-                <img class="Anime_Poster" src="{{watching.cover_path}}" alt="{{watching.anime_id}}">
+                <img class="Anime_Poster" src="{{watching.cover_path}}" alt="{{watching.anime_id}} " title="{{watching.anime_title}}">
            {%endfor%}
         </div>
 
@@ -255,8 +255,7 @@
             <h1 style="top: 15%;">Downloads</h1>
         </a>
 
-        <a class="Add_button" style="top: 5%; color: #345f7c;" href="/Animes/Downloads/add_download">+</a>  
-        <a class="Subtract_button" style="top: 10%; color: #345f7c;" href="/Animes/Watching/remove_watching">_</a>
+        <a class="Add_button" style="top: 15%; color: #345f7c;" href="/Animes/Downloads/add_download">+</a>  
 
         <div class="grid">
             {%for anime_downloaded in downloaded_list%}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
+    <link rel="icon" href="static/BrowserLogo.png">
+    <title>Anime Episodes</title>
+</head>
+<style>
+
+    .episodes_container{
+
+        position: absolute;
+        top: 88%;
+        /* top: auto; */
+        left: 10%;
+
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        
+
+        
+        
+        column-gap: 50px;
+        text-align: center;
+        width: 80%;
+    }
+
+    .number_container{
+
+        color: #1b262c;
+        background-color: #345f7c;
+        text-align: center;
+
+        font-family: 'Questrial', sans-serif;
+        font-size: calc(20px + 1vw);
+
+        border-radius: 5px;
+
+    }
+
+    .video_player{
+        position: absolute;
+        top: 5%;
+        left: 10%;
+        background-color: #345f7c;
+        width: 80%;
+        height: auto;
+
+        border-radius: 5px;
+    }
+
+    html{
+        /* background-color: rgb(28, 31, 34);
+         */
+         background-color: #1b262c;
+    }
+
+</style>
+<body>
+
+    <div>
+        
+            <video class="video_player" controls>
+                <source src="/Users/pedrocruz/Desktop/Anime/SoraYoriMoTooiBasho/A Place Further than the Universe_1.mp4" type="video/mp4">
+            </video>
+        
+        
+        <div class="episodes_container">
+            <a href="" style="text-decoration: none;">
+                <p class="number_container">1</p>
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -31,16 +31,20 @@ mp4_urls,referers = twist_moe.get_raw_urls(url=anime_data['main_url'],nEpisodes=
 twist_moe.finish()
 print(json.dumps(mp4_urls,indent = 4))
 print(json.dumps(referers,indent = 4))
+with open('referers.txt','w') as file:
+    file.write(json.dumps(referers,indent=4))
+    file.write(json.dumps(mp4_urls,indent=4))
 
+    
 # Change to the correct directory 
 os.chdir('/Users/pedrocruz/Desktop/Anime/')
 
 # Make a directory for the new anime
-os.system('mkdir "%s" ' %(anime_data['anime_title'].replace('.','_').replace('/','_')))
+os.system('mkdir "%s" ' %(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','')))
 
 # change to the new directory
-os.chdir(anime_data['anime_title'].replace('.','_').replace('/','_'))
-static_path = 'static/Animes/'+anime_data['anime_title'].replace('.','_').replace('/','_')+'/%s'
+os.chdir(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':',''))
+static_path = 'Animes/'+anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','')+'/%s'
 
 episode_number = 1
 # go through each url and download it
