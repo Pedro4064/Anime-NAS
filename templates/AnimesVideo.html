@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
     <link rel="icon" href="static/BrowserLogo.png">
+    
+    
     <title>Anime Episodes</title>
 </head>
 <style>
@@ -63,14 +65,18 @@
     <div>
         
             <video class="video_player" controls>
-                <source src="/Users/pedrocruz/Desktop/Anime/SoraYoriMoTooiBasho/A Place Further than the Universe_1.mp4" type="video/mp4">
+                {%if episode_data%}
+                <source src="{{url_for('static',filename=episode_data.file_path)}}" type="video/mp4">
+                {%endif%}
             </video>
         
         
         <div class="episodes_container">
-            <a href="" style="text-decoration: none;">
-                <p class="number_container">1</p>
+            {%for anime in anime_data%}
+            <a href="/Animes/Play/anime_id={{anime.anime_id}}/episode={{anime.episode_number}}" style="text-decoration: none;">
+                <p class="number_container">{{anime.episode_number}}</p>
             </a>
+            {%endfor%}
         </div>
 
     </div>

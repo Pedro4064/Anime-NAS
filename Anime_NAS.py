@@ -1,12 +1,13 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_from_directory
 import mysql.connector
 import json
 import subprocess
 import sys 
+import os
 
 # Create a flask instance
-# app = Flask(__name__,static_folder='/Users/pedrocruz/Desktop/')
-app = Flask(__name__)
+app = Flask(__name__,static_folder='/Users/pedrocruz/Desktop/static')
+# app = Flask(__name__)
 
 def sql_connector():
 
@@ -367,6 +368,28 @@ def add_to_download(anime_id):
 
     # redirect to the main page
     return redirect('/Animes')
+
+
+@app.route('/Animes/Play/anime_id=<anime_id>/episode=<episode_number>')
+def play_video(anime_id,episode_number):
+
+    # get the tools to access the db
+    database,myCursor = sql_connector()
+
+    # Get the list of all episodes for that anime
+    myCursor.execute('SELECT * FROM Downloads WHERE anime_id = %d ORDER BY episode_number' %(int(anime_id)))
+    raw_response = myCursor.fetchall()
+
+    # parse the data
+    download_data = convert_tuple(data=raw_response,keys=['anime_id','episode_number','file_path'], return_type='LIST')
+
+    # Get the info for the episode
+    episode_data = [anime_info for anime_info in download_data if anime_info['episode_number'] == int(episode_number)]
+
+    # render the html
+    return render_template('AnimesVideo.html', anime_data= download_data, episode_data=episode_data[0])
+    # return redirect('file:://Users/pedrocruz/Desktop/Programming/Python/Git/Anime-NAS/static/Animes/Ookami to Koushinryou_1.mp4')
+
 
 if __name__ == '__main__':
 
