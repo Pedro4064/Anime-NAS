@@ -74,7 +74,8 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
         # Check to see if it is a movie or a series, they have different xPaths
         try:
 
-            # wait for the first element to appear, if there is an element it is a series, set the firstItem as an xPath for series
+            # wait for the first element to appear, if there is an element it is a series, set the firstItem as an xPath for series  ------ iota try
+            print('iota ...')
             firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li[2]/a'
             ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
 
@@ -88,11 +89,20 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
                 ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
         
             except:
-                # It can be a yota case, so set the correct xpath
-                print('Trying to get the url for yota...')
-                firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li[1]/a'
-                
-                ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
+
+                try:
+                    # It can be a yota case, so set the correct xpath
+                    print('Trying to get the url for yota...')
+                    firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li[1]/a'
+                    
+                    ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
+
+                except:
+                    # --- normal try
+                    print('Trying to get the url of a non iota anime...')
+                    firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li[1]/a'
+                    
+                    ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
             
                     
         
@@ -112,7 +122,10 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
                     print(url)
 
             except:
-                break
+                if i!=1:
+                    break
+                else:
+                    continue
                 # continue
         
 
