@@ -263,7 +263,9 @@
 
         <div class="grid">
             {%for anime_downloaded in downloaded_list%}
-            <p style="background-color: #345f7c; color: #1b262c;">{{anime_downloaded.anime_title}}</p>
+            <a href="/Animes/Play/anime_id={{anime_downloaded.anime_id}}/episode=1" style="text-decoration: none;">
+                <p style="background-color: #345f7c; color: #1b262c;">{{anime_downloaded.anime_title}}</p>
+            </a>
             {%endfor%}
         </div>
     </div>

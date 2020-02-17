@@ -80,12 +80,19 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
 
         except:
 
-            # Since it is not a series it must be a movie, set the firstItem xPath to match that of a movie
-            print('Trying to get the url of a movie...')
-            firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li/a'
-            
-            ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
+            try:
+                # Since it is not a series it must be a movie, set the firstItem xPath to match that of a movie
+                print('Trying to get the url of a movie...')
+                firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li/a'
+                
+                ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
         
+            except:
+                # It can be a yota case, so set the correct xpath
+                print('Trying to get the url for yota...')
+                firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li[1]/a'
+                
+                ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
         
         time.sleep(3)
 
@@ -103,8 +110,12 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
                     print(url)
 
             except:
-                break
-                # continue
+
+                if i !=1:
+                    break
+                else:
+                    continue
+                
         
 
         #  Go to each url and get the raw url 

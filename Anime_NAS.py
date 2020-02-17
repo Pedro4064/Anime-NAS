@@ -393,4 +393,4 @@ def play_video(anime_id,episode_number):
 
 if __name__ == '__main__':
 
-    app.run(debug=True, host='192.168.15.9')
+    app.run(debug=True, host='192.168.15.5')
