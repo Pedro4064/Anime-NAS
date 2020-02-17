@@ -8,7 +8,7 @@ import os
 
 
 # Create an instace of the moe class
-twist_moe = Moe.Moe()
+twist_moe = Moe.Moe(driverPath='/usr/lib/chromium-browser/chromedriver')
 
 # Get the tools to access the database
 database,MyCursor = Anime_NAS.sql_connector()
@@ -37,7 +37,7 @@ with open('referers.txt','w') as file:
 
     
 # Change to the correct directory 
-os.chdir('/Users/pedrocruz/Desktop/Anime/')
+os.chdir('/media/pi/Pedro_Ext/Otaku_stuff/static/Animes')
 
 # Make a directory for the new anime
 os.system('mkdir "%s" ' %(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','')))

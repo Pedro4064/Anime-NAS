@@ -18,7 +18,7 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
         self.driver = webdriver.Chrome(driverPath,options=self.options)
 
         # The wait for elements config -> 10 seconds
-        self.wait = webdriver.support.ui.WebDriverWait(self.driver,10)
+        self.wait = webdriver.support.ui.WebDriverWait(self.driver,20)
 
         # Main twist Mow url 
         self.mainURL = 'https://twist.moe'
@@ -79,13 +79,22 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
             ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
 
         except:
-
-            # Since it is not a series it must be a movie, set the firstItem xPath to match that of a movie
-            print('Trying to get the url of a movie...')
-            firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li/a'
             
-            ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
+            try:
+                # Since it is not a series it must be a movie, set the firstItem xPath to match that of a movie
+                print('Trying to get the url of a movie...')
+                firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li/a'
+                
+                ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
         
+            except:
+                # It can be a yota case, so set the correct xpath
+                print('Trying to get the url for yota...')
+                firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li[1]/a'
+                
+                ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
+            
+                    
         
         time.sleep(3)
 

@@ -6,7 +6,7 @@ import sys
 import os
 
 # Create a flask instance
-app = Flask(__name__,static_folder='/Users/pedrocruz/Desktop/static')
+app = Flask(__name__,static_folder='/media/pi/Pedro_Ext/Otaku_stuff/static')
 # app = Flask(__name__)
 
 def sql_connector():
@@ -362,7 +362,7 @@ def add_to_download(anime_id):
     database.commit()
 
     #################### Use to call another python script (the one to download) #########################
-    commands = ["/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7", "/Users/pedrocruz/Desktop/Programming/Python/Git/Anime-NAS/Download_Animes.py", anime_id]
+    commands = ["/usr/local/bin/python3.7", "/home/pi/Desktop/Anime-NAS/Download_Animes.py", anime_id]
     subprocess.Popen(commands,  stdout=subprocess.PIPE)
     ######################################################################################################
 
@@ -393,4 +393,4 @@ def play_video(anime_id,episode_number):
 
 if __name__ == '__main__':
 
-    app.run(debug=True, host='192.168.15.9')
+    app.run(debug=True, host='192.168.15.2')
