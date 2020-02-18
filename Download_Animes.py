@@ -59,7 +59,7 @@ for raw_url,referer in zip(mp4_urls,referers):
     while done == False:
 
         # Make a request to the url
-        response = session.get(raw_url)
+        response = session.get(raw_url, stream=True)
         
         file_name = anime_data['anime_title']+'_'+str(episode_number)+'.mp4'
         
@@ -67,7 +67,9 @@ for raw_url,referer in zip(mp4_urls,referers):
         # Create the .mp4 file and write binary content
         with open(file_name,'wb') as video_file:
 
-            video_file.write(response.content)
+            # Iterate through the content, so not every thing is stored in memory at the same time
+            for chunk in response.iter_content(512):
+                video_file.write(chunk)
 
         # Check to see the size of the file, if it is too small and error happened
         if os.path.getsize(file_name) < 10000:
