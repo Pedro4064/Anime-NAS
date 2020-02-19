@@ -29,7 +29,7 @@
 ---
 ## Getting Started
 
-#### Prerequisites
+### Prerequisites
 • Libraries and drivers you need to install to deploy the application.
 ##### Raspberry Pi
 
@@ -85,7 +85,7 @@ sudo apt-get install exfat-utils
 ##### WebDriver
  • Follow this [instructions](https://www.reddit.com/r/selenium/comments/7341wt/success_how_to_run_selenium_chrome_webdriver_on/) to download chrome webdriver that is used by the selenium module to download animes from [Twist Moe](https://twist.moe/) . <br/>
 
-#### Set Up The Database
+### Set Up The Database
 
 ##### Mysql
 
@@ -111,7 +111,7 @@ twist_moe = Moe(driverPath="path/to/WebDriver")
 • After saving the changes, run the [Populate_db.py](Populate_db.py) script by typing : `python3 Populate_db.py`.
 
 
-#### Set Up The Anime Downloader Script
+### Set Up The Anime Downloader Script
 
 • In the [Download_Animes.py](Download_Animes.py) script, set the webdriver path to the one in your system (on line 11):
 
