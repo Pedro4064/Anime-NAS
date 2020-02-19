@@ -9,6 +9,7 @@
 ---
 
 </br>
+
 ## Details
 
 • The application uses python as the main programming language.
