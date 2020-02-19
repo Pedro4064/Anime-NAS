@@ -6,9 +6,8 @@
 
 </br>
 
----
 
-</br>
+
 
 ## Details
 
@@ -26,7 +25,6 @@
 
 • It can be accessed from any device within the same network.
 
----
 ## Getting Started
 
 ### Prerequisites
@@ -49,6 +47,8 @@ sudo apt-get install exfat-utils
  ```
 -Obs: If it's your first time with a Raspberry Pi, follow this [introductory article](https://projects.raspberrypi.org/en/projects/raspberry-pi-getting-started) by the Pi Foundation.
 
+---
+
 ##### Hard Drive
 
 • Inside the Hard Drive create a directory called `static` and inside that create another directory called `Animes`.
@@ -61,6 +61,7 @@ sudo apt-get install exfat-utils
 
 `/media/pi/Hard_Drive_Name/static/Animes`
 
+---
 
 ##### Python
 • Support for python3 or greater.</br>
@@ -78,9 +79,14 @@ sudo apt-get install exfat-utils
     ```bash
    sudo python3 -m pip3 install -r path/to/requirements.txt 
    ```
+
+---
+
 ##### Mysql
 •Follow [this tutorial](https://pimylifeup.com/raspberry-pi-mysql/) up to step 8 to set up MySQL database on your Raspberry Pi.
 </br>
+
+---
 
 ##### WebDriver
  • Follow this [instructions](https://www.reddit.com/r/selenium/comments/7341wt/success_how_to_run_selenium_chrome_webdriver_on/) to download chrome webdriver that is used by the selenium module to download animes from [Twist Moe](https://twist.moe/) . <br/>
@@ -95,6 +101,8 @@ sudo apt-get install exfat-utils
 </br>
 
 *obs: Where `/path/to/Databse_setup.sql` is the path to [Database_setup.sql](Database_setup.sql) in your system.
+
+---
 
 ##### Populate the Database
 
