@@ -52,7 +52,9 @@ sudo apt-get install exfat-utils
 ##### Hard Drive
 
 • Inside the Hard Drive create a directory called `static` and inside that create another directory called `Animes`.
+
 |
+
 |_ This will be the directory where the program will store the directories and episodes for all animes.
 
 • The path to the `Animes` directory should be the following:
