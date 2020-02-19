@@ -89,7 +89,7 @@ sudo apt-get install exfat-utils
 ---
 
 #### WebDriver
- • Follow this [instructions](https://www.reddit.com/r/selenium/comments/7341wt/success_how_to_run_selenium_chrome_webdriver_on/) to download chrome webdriver that is used by the selenium module to download animes from [Twist Moe](https://twist.moe/) . <br/>
+ • Follow this [instructions](https://www.reddit.com/r/selenium/comments/7341wt/success_how_to_run_selenium_chrome_webdriver_on/) to download chrome webdriver that is used by the selenium module to download animes from [Twist Moe](https://twist.moe/) . <br/><br/><br/><br/>
 
 ### Set Up The Database
 
@@ -118,6 +118,9 @@ twist_moe = Moe(driverPath="path/to/WebDriver")
 
 • After saving the changes, run the [Populate_db.py](Populate_db.py) script by typing : `python3 Populate_db.py`.
 
+<br/>
+<br/>
+<br/>
 
 ### Set Up The Anime Downloader Script
 
