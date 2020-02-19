@@ -140,3 +140,17 @@ sudo apt-get install exfat-utils
    ```python
    os.chdir('/media/pi/Hard_Drive_Name/static/Animes')
    ```
+
+### Deploy the Application
+
+• Before deplying you need to find the ip address for your pi and set it in the flask app:
+1. `hostname -I` -> It will return the Ip Address
+2. Go to [Anime_NAS.py](Anime_NAS.py) script (on line 396)and set the host to your IP Address. 
+
+Ex:
+
+```python
+app.run(debug=True, host='192.168.0.0')
+```
+
+• Now you can deploy by typing: `python3 Anime_NAS.py`
