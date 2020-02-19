@@ -2,14 +2,14 @@
 
 • Web app writen in Python using Flask and MySQL to manage and download animes;
 </br>
-• Using a Raspberry Pi 3b+ and a 2.5"HDD as the "server".
-</br>
-• Access from any device in the network.
 
---- 
+
+
 ## Details
 
 • The application uses python as the main programming language.
+
+• In My set up I'm using a  Raspberry Pi 3b+ and a 2.5" 500 GB HDD as the "server".
 
 • It uses MySQL to store the path to all the anime episodes downloaded to the system as well as  "Favorites", "Watching", and "Downloaded" lists.
 
