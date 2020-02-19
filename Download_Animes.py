@@ -61,7 +61,7 @@ for raw_url,referer in zip(mp4_urls,referers):
         # Make a request to the url
         response = session.get(raw_url)
         
-        file_name = anime_data['anime_title']+'_'+str(episode_number)+'.mp4'
+        file_name = anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','')+'_'+str(episode_number)+'.mp4'
         
 
         # Create the .mp4 file and write binary content
