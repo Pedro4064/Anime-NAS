@@ -93,7 +93,8 @@ sudo apt-get install exfat-utils
 
 2. Once inside the MySQL Shell type the following command to set up the database: `source /path/to/Databse_setup.sql`
 </br>
-    *obs: Where `/path/to/Databse_setup.sql` is the path to [Database_setup.sql](Database_setup.sql) in your system.
+
+*obs: Where `/path/to/Databse_setup.sql` is the path to [Database_setup.sql](Database_setup.sql) in your system.
 
 ##### Populate the Database
 
