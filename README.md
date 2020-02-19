@@ -108,15 +108,15 @@ sudo apt-get install exfat-utils
 
 • To populate the database we will be using the [Populate_db.py](Populate_db.py) script, but before that you'll need to change the mysql details in the [Anime_NAS.py](Anime_NAS.py) script to match the ones in your system, and change the webdriver path to the one in your sytem in the [Populate_db.py](Populate_db.py) script.
 
-• In [Anime_NAS.py](Anime_NAS.py), go to the `sql_connector` function (line 12) and change the `password` variable to your MySQL password.
+1. In [Anime_NAS.py](Anime_NAS.py), go to the `sql_connector` function (line 12) and change the `password` variable to your MySQL password.
 
-• In the [Populate_db.py](Populate_db.py) script (line 16), set the correct webdriver to match the one in your system:
+2. In the [Populate_db.py](Populate_db.py) script (line 16), set the correct webdriver to match the one in your system:
 
-```python
-twist_moe = Moe(driverPath="path/to/WebDriver")
-```
+   ```python
+   twist_moe = Moe(driverPath="path/to/WebDriver")
+   ```
 
-• After saving the changes, run the [Populate_db.py](Populate_db.py) script by typing : `python3 Populate_db.py`.
+3. After saving the changes, run the [Populate_db.py](Populate_db.py) script by typing : `python3 Populate_db.py`.
 
 <br/>
 <br/>
@@ -124,13 +124,13 @@ twist_moe = Moe(driverPath="path/to/WebDriver")
 
 ### Set Up The Anime Downloader Script
 
-• In the [Download_Animes.py](Download_Animes.py) script, set the webdriver path to the one in your system (on line 11):
+1. In the [Download_Animes.py](Download_Animes.py) script, set the webdriver path to the one in your system (on line 11):
 
-```python
-twist_moe = Moe.Moe(driverPath="path/to/WebDriver")
-```
-• Also in the [Download_Animes.py](Download_Animes.py) script, set the  path to the `Animes` directory on your Hardrive (on line 40):
+   ```python
+   twist_moe = Moe.Moe(driverPath="path/to/WebDriver")
+   ```
+2. Also in the [Download_Animes.py](Download_Animes.py) script, set the  path to the `Animes` directory on your Hardrive (on line 40):
 
-```python
-os.chdir('/media/pi/Hard_Drive_Name/static/Animes')
-```
+   ```python
+   os.chdir('/media/pi/Hard_Drive_Name/static/Animes')
+   ```
