@@ -3,9 +3,7 @@
 • Web app writen in Python using Flask and MySQL to manage and download animes;
 
 ![GitHub top language](https://img.shields.io/github/languages/top/Pedro4064/Anime-NAS)
-
 ![GitHub](https://img.shields.io/github/license/Pedro4064/Anime-NAS)
-
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Pedro4064/Anime-NAS)
 
 
