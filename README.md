@@ -25,6 +25,12 @@
 
 • It can be accessed from any device within the same network.
 
+![Page1](images/Page1.png)
+![Page2](images/Page2.png)
+![Page2](images/Page3.png)
+![Page2](images/Page4.png)
+
+
 ## Getting Started
 
 ### Prerequisites
