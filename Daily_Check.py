@@ -1,5 +1,6 @@
 from Anime_NAS import sql_connector,convert_tuple, get_titles_from_ids
 from Moe import Moe
+import requests
 import os
 
 def get_watching_list():
@@ -79,11 +80,15 @@ def parse_new_episodes(downloaded_episodes:'list of all episodes downloaded for 
 
 def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_referers:list, new_releases_raw_mp4:list):
 
+    # Get the tools to access the database
+    database,MyCursor = sql_connector()
+
     # Get the anime title so we can change to the correct directory
     anime_title = get_titles_from_ids(ids = [anime_id])[0]['anime_title']
 
     base_directory = '/Users/pedrocruz/Desktop/Anime/'
     anime_directory = base_directory+anime_title.replace('.','_').replace('/','_').replace(':','')
+    static_path = 'Animes/'+anime_title.replace('.','_').replace('/','_').replace(':','')+'/%s'
 
     # Change to the directory 
     os.chdir(anime_directory)
@@ -92,11 +97,62 @@ def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_re
     episode_number = number_of_downloaded_episodes+1
     
     for raw_url,referer in zip(new_releases_raw_mp4,new_releases_referers):
-        pass        
+        
+         # Set up the session config
+        session = requests.Session()
+        session.headers.update({'referer':referer})
+
+        # A Bool to determine if the download was successful
+        done = False
+        while done == False:
+
+            # Make a request to the url
+            response = session.get(raw_url, stream=True)
+            
+            file_name = anime_title.replace('.','_').replace('/','_').replace(':','')+'_'+str(episode_number)+'.mp4'
+            
+
+            # Create the .mp4 file and write binary content
+            with open(file_name,'wb') as video_file:
+
+                # Iterate through the content, so not every thing is stored in memory at the same time
+                for chunk in response.iter_content(512):
+                    video_file.write(chunk)
+
+            # Check to see the size of the file, if it is too small and error happened
+            if os.path.getsize(file_name) < 10000:
+                done = False
+                print(os.path.getsize(file_name))
+
+            else:
+                done = True
+
+        
+        # Update the database
+        MyCursor.execute("INSERT INTO Downloads(anime_id,episode_number,file_path) VALUES(%d,%d,'%s')" %(anime_id,episode_number,static_path %(file_name)))
+        database.commit()
+
+        # update the episode nuumber
+        episode_number+=1
+
 if __name__ == '__main__':
 
     watching_list = get_watching_list()
 
-    for anime in watching_list:
-        potato = get_downloaded_episodes(anime_id=anime['anime_id'])
-        number_of_episodes = len(get_anime_links(get_main_url_from_id(anime['anime_id'])))
+    for anime_id in watching_list:
+
+        # Get a list of dicts containing the anime_id and the episode_number
+        downloaded_episodes = get_downloaded_episodes(anime_id=anime_id)
+
+        # Get the main url for that anime, so we can get a list of all released animes
+        main_anime_url = get_main_url_from_id(anime_id)
+
+        # Get all animes released so far
+        referers,raw_mp4_urls = get_anime_links(anime_url=main_anime_url)
+
+        # Get only the data for the newly added episodes
+        referers = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=referers)
+        raw_mp4_urls = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=raw_mp4_urls)
+
+        # Download the new episodes
+        download_new_releases(anime_id=anime_id,number_of_downloaded_episodes=len(downloaded_episodes),new_releases_referers=referers,new_releases_raw_mp4=raw_mp4_urls)
