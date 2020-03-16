@@ -362,7 +362,7 @@ def add_to_download(anime_id):
     database.commit()
 
     #################### Use to call another python script (the one to download) #########################
-    commands = ["/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7", "/Users/pedrocruz/Desktop/Programming/Python/Git/Anime-NAS/Download_Animes.py", anime_id]
+    commands = ["/home/pedro/.local/share/virtualenvs/Anime-NAS-actSe8GZ/bin/python3", "/home/pedro/Documents/Python/Anime-NAS/Download_Animes.py", anime_id]
     subprocess.Popen(commands,  stdout=subprocess.PIPE)
     ######################################################################################################
 
@@ -393,4 +393,4 @@ def play_video(anime_id,episode_number):
 
 if __name__ == '__main__':
 
-    app.run(debug=True, host='192.168.15.5')
+    app.run(debug=True, host='10.0.2.15')

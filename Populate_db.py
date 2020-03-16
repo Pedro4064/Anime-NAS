@@ -13,7 +13,7 @@ database,myCursor = sql_connector()
 ################################################################################################################################################################
 
 # Get all the data from the Twistmoe website
-twist_moe = Moe()
+twist_moe = Moe(driverPath='/home/pedro/Documents/Python/chromedriver')
 website_data = twist_moe.get_all_animes_in_database()
 
 # the mysql command

@@ -8,7 +8,7 @@ import os
 
 
 # Create an instace of the moe class
-twist_moe = Moe.Moe()
+twist_moe = Moe.Moe(driverPath='/home/pedro/Documents/Python/chromedriver')
 
 # Get the tools to access the database
 database,MyCursor = Anime_NAS.sql_connector()
