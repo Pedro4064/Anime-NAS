@@ -61,6 +61,13 @@ def parse_new_episodes(downloaded_episodes:'list of all episodes downloaded for 
     # Check to see if there are new episodes by checking the size of list containing all episodes in the website and comparing to the number of episodes downloaded in the system
     if len(downloaded_episodes) == len(released_episodes):
 
+        print('No new episodes available for this anime')
+        return None
+
+    # If there are more downloaded episodes than episodes in the website and error occurred while scraping, return None to avoid breaking the code
+    elif len(downloaded_episodes) > len(released_episodes):
+
+        print('[ERROR] Number of downloaded episodes greater than the number of episodes on the website')
         return None
 
     else:
@@ -156,5 +163,6 @@ if __name__ == '__main__':
         referers = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=referers)
         raw_mp4_urls = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=raw_mp4_urls)
 
-        # Download the new episodes
-        download_new_releases(anime_id=anime_id,number_of_downloaded_episodes=len(downloaded_episodes),new_releases_referers=referers,new_releases_raw_mp4=raw_mp4_urls)
+        # Download the new episodes if there are any
+        if referers != None:
+            download_new_releases(anime_id=anime_id,number_of_downloaded_episodes=len(downloaded_episodes),new_releases_referers=referers,new_releases_raw_mp4=raw_mp4_urls)
