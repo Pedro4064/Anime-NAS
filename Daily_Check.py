@@ -50,7 +50,7 @@ def get_downloaded_episodes(anime_id:int):
 
 def get_anime_links(anime_url):
 
-    twist_moe = Moe()
+    twist_moe = Moe(driverPath='/home/pedro/Documents/Python/chromedriver')
     mp4_urls,referers = twist_moe.get_raw_urls(url=anime_url,nEpisodes=1000)
 
     # Return both the referers and the raw urls
@@ -139,8 +139,10 @@ if __name__ == '__main__':
 
     watching_list = get_watching_list()
 
-    for anime_id in watching_list:
+    for anime_info in watching_list:
 
+        # Get the anime_id from the dict
+        anime_id = anime_info['anime_id']
         # Get a list of dicts containing the anime_id and the episode_number
         downloaded_episodes = get_downloaded_episodes(anime_id=anime_id)
 
