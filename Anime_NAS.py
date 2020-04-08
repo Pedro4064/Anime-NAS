@@ -6,7 +6,7 @@ import sys
 import os
 
 # Create a flask instance
-app = Flask(__name__,static_folder='/Users/pedrocruz/Desktop/static')
+app = Flask(__name__,static_folder='/static')
 # app = Flask(__name__)
 
 def sql_connector():
