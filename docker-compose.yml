@@ -1,16 +1,28 @@
 version: '3.3'
 
 services:
-    db:
-        image: linuxserver/mariadb
-        container_name: db
+
+    anime_database:
+        image: pedro4064/anime-nas-db
+        container_name: anime_database
         restart: always
         environment: 
             - MYSQL_ROOT_PASSWORD=P3dr0mysql
-            - MYSQL_USER=Anime_NAS
+            - MYSQL_USER=root
             - MYSQL_PASSWORD=P3dr0mysql
-        volumes: 
-            - /media/pi/PEDRO\ CRUZ/Docker:/config
-            - /home/pi/Documents/python/Anime-NAS/database_setup:/config/initdb.d/
+            - MYSQL_DATABASE=Anime_NAS
         ports: 
             - 3306:3306
+
+    anime_web_app:
+            image: pedro4064/anime_nas
+            container_name: anime_web_app
+            restart: always
+            depends_on:
+                    - anime_database
+
+            volumes:
+                    - /media/pi/PEDRO\ CRUZ/static/Animes:/static/Animes
+            ports:
+                    - "80:80"
+

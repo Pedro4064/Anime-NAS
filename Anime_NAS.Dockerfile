@@ -12,10 +12,12 @@ RUN apt-get install -y python3 \
 RUN mkdir static && mkdir static/Animes
 
 # Create and move to the scripts directory
-RUN mkdir scripts 
+RUN mkdir scripts
+RUN mkdir scripts/templates 
 WORKDIR /scripts
 
 # Copy the necessary scripts 
 COPY Anime_NAS.py /scripts
+COPY ./templates /scripts/templates
 
 CMD [ "python3","Anime_NAS.py" ]

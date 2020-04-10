@@ -1,3 +1,8 @@
+-- Create DB
+CREATE DATABASE Anime_NAS;
+
+-- Use the db
+USE Anime_NAS;
 
 -- Create the first table
 CREATE TABLE Animes ( anime_id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY, anime_title VARCHAR(100) , main_url VARCHAR(240) );
