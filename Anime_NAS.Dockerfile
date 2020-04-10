@@ -16,6 +16,6 @@ RUN mkdir scripts
 WORKDIR /scripts
 
 # Copy the necessary scripts 
-COPY . /scripts
+COPY Anime_NAS.py /scripts
 
 CMD [ "python3","Anime_NAS.py" ]

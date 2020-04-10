@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+    db:
+        image: linuxserver/mariadb
+        container_name: db
+        restart: always
+        environment: 
+            - MYSQL_ROOT_PASSWORD=P3dr0mysql
+            - MYSQL_USER=Anime_NAS
+            - MYSQL_PASSWORD=P3dr0mysql
+        volumes: 
+            - /media/pi/PEDRO\ CRUZ/Docker:/config
+            - /home/pi/Documents/python/Anime-NAS/database_setup:/config/initdb.d/
+        ports: 
+            - 3306:3306
