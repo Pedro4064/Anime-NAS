@@ -123,15 +123,14 @@ def download_all_episodes_from_id(anime_id):
 
     
     # Create 5 threads to download 5 episodes Cconcurrently
-    # threads = []
-    # for i in range(5):
+    threads = []
+    for i in range(5):
 
-    #     threads.append(threading.Thread(target=download_episode))
-    #     threads[i].start()
+        threads.append(threading.Thread(target=download_episode))
+        threads[i].start()
 
     # for thread in threads:
     #     thread.join()
-    download_episode()
         
     return 'DOWNLOADING %s' %(anime_data['anime_title'])
 
