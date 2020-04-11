@@ -10,16 +10,14 @@ app = Flask(__name__)
 @app.route('/populate_database')
 def populate_database():
         
-    # connect to mysql database
-    database,myCursor = sql_connector()
-
-
-
-    ################################################################################################################################################################
-
     # Get all the data from the Twistmoe website
+    print('Instantiating Moe class and getting all the anime in the website ...')
     twist_moe = Moe()
     website_data = twist_moe.get_all_animes_in_database()
+
+    # connect to mysql database
+    print('Getting mysql tools...')
+    database,myCursor = sql_connector()
 
     # the mysql command
     command = "INSERT INTO Animes (anime_title, main_url) VALUES ('%s','%s') "
@@ -57,6 +55,10 @@ def populate_database():
         cover_data.append(anime_info)
         print(json.dumps(anime, indent=4))
 
+        # connect to mysql database
+        print('Getting mysql tools...')
+        database,myCursor = sql_connector()
+        
         # add to the db
         myCursor.execute("INSERT INTO Covers(anime_id,cover_path) VALUES (%s,'%s')"%(anime['anime_id'],cover_url))
         database.commit()
