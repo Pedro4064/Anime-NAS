@@ -19,6 +19,8 @@ def download_episode():
     global referers
     global anime_data
     global episodes_numbers
+    global static_path
+    global anime_id
 
     # Check to see if there are more episodes to download, if not, exit the function 
     if len(mp4_urls) == 0:
@@ -73,20 +75,23 @@ def download_episode():
         database,MyCursor = Anime_NAS.sql_connector()
 
         # Update the database
-        MyCursor.execute("INSERT INTO Downloads(anime_id,episode_number,file_path) VALUES(%d,%d,'%s')" %(anime_id,episode_number,static_path %(file_name)))
+        MyCursor.execute("INSERT INTO Downloads(anime_id,episode_number,file_path) VALUES(%s,%d,'%s')" %(anime_id,episode_number,static_path %(file_name)))
         database.commit()
 
     # Use recursion to make the thread call itself and download any other episodes
     download_episode()
 
-@app.route('/download_anime/anime_id=<anime_id>')
-def download_all_episodes_from_id(anime_id):
+@app.route('/download_anime/anime_id=<incomming_anime_id>')
+def download_all_episodes_from_id(incomming_anime_id):
         
     global mp4_urls
     global referers
     global anime_data
     global episodes_numbers
+    global anime_id
+    global static_path
 
+    anime_id = incomming_anime_id
     # Create an instace of the moe class
     twist_moe = Moe.Moe()
 
@@ -122,13 +127,14 @@ def download_all_episodes_from_id(anime_id):
     static_path = 'Animes/'+anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','')+'/%s'
 
     
-    # Create 5 threads to download 5 episodes Cconcurrently
+    # Create 3 threads to download 3 episodes Cconcurrently
     threads = []
-    for i in range(5):
+    for i in range(3):
 
         threads.append(threading.Thread(target=download_episode))
         threads[i].start()
-
+        
+    # download_episode()
     # for thread in threads:
     #     thread.join()
         
