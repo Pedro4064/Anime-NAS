@@ -17,10 +17,12 @@ services:
 
         populate_db:
                 image: pedro4064/anime_nas_populate_db
-                container_name: populate_db
+                container_name: populate_db                
                 depends_on:
                         - anime_database
-                        
+                ports:
+                        - "5000:80"
+
         anime_web_app:
                 image: pedro4064/anime_nas
                 container_name: anime_web_app
