@@ -153,7 +153,7 @@ def first_setup():
     database.commit()
 
     # populate the db
-    request.get('http://populate_db:80/populate_database')
+    requests.get('http://populate_db:80/populate_database')
     return "SetUp Done"
 
 @app.route('/Animes')
