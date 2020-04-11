@@ -8,18 +8,31 @@ services:
                 container_name: anime_database
                 restart: always
                 environment: 
-                - MYSQL_ROOT_PASSWORD=P3dr0mysql
-                - MYSQL_USER=root
-                - MYSQL_PASSWORD=P3dr0mysql
-                - MYSQL_DATABASE=Anime_NAS
+                        - MYSQL_ROOT_PASSWORD=P3dr0mysql
+                        - MYSQL_USER=root
+                        - MYSQL_PASSWORD=P3dr0mysql
+                        - MYSQL_DATABASE=Anime_NAS
                 ports: 
-                - 3306:3306
+                        - 3306:3306
+                # volumes:
+
+                
 
         populate_db:
                 image: pedro4064/anime_nas_populate_db
                 container_name: populate_db                
                 depends_on:
                         - anime_database
+        
+
+        anime_download:
+                image: pedro4064/anime_nas_download
+                container_name: anime_download
+                restart: always
+                depends_on:
+                        - anime_database
+                volumes:
+                        - /media/pi/PEDRO CRUZ/Animes:/animes
                 ports:
                         - "5000:80"
 
@@ -31,7 +44,7 @@ services:
                         - anime_database
 
                 volumes:
-                        - /media/pi/PEDRO\ CRUZ/static/Animes:/static/Animes
+                        - /media/pi/PEDRO CRUZ/Animes:/static/Animes
                 ports:
                         - "80:80"
 
