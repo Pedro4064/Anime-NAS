@@ -8,7 +8,7 @@ import time
 
 class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.By,webdriver.support.ui.WebDriverWait):
 
-    def __init__(self, driverPath:str = '/usr/local/bin/chromedriver'):
+    def __init__(self, driverPath:str = '/usr/lib/chromium-browser/chromedriver'):
 
         # Added the headless option 
         self.options = webdriver.chrome.options.Options()
