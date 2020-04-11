@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, send_from_directory
 import mysql.connector
-import json
 import subprocess
+import requests
+import json
 import sys 
 import os
 
@@ -13,7 +14,7 @@ def sql_connector():
 
     # Instantiate a sql connector
     data_base = mysql.connector.connect(
-    host = 'localhost',
+    host = 'anime_database',
     user = 'root',
     password = 'P3dr0mysql',
     database = 'Anime_NAS'
@@ -126,6 +127,34 @@ def get_covers_from_ids(ids:list):
 
 
 
+@app.route('/setUp')
+def first_setup():
+
+    # Get the tools to access the db
+    database,my_cursors = sql_connector()
+
+    # Create the tables
+    my_cursors.execute('CREATE TABLE Animes ( anime_id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY, anime_title VARCHAR(100) , main_url VARCHAR(240) )')
+    database.commit()
+
+    my_cursors.execute('CREATE TABLE Downloads (anime_id INT(10) NOT NULL, episode_number SMALLINT, file_path VARCHAR(240), FOREIGN KEY (anime_id) REFERENCES Animes(anime_id) )')
+    database.commit()
+
+    my_cursors.execute('CREATE TABLE Favorites (anime_id INT(10) NOT NULL, cover_path VARCHAR(240) ,FOREIGN KEY(anime_id) REFERENCES Animes(anime_id));')
+    database.commit()
+
+    my_cursors.execute('CREATE TABLE Watching (anime_id INT(10) NOT NULL, FOREIGN KEY(anime_id) REFERENCES Animes(anime_id))')
+    database.commit()
+
+    my_cursors.execute('CREATE TABLE Covers (anime_id INT(10) NOT NULL,cover_path VARCHAR(240) , FOREIGN KEY(anime_id) REFERENCES Animes(anime_id))')
+    database.commit()
+
+    my_cursors.execute('CREATE TABLE Animes_Download_List (anime_id INT(10) NOT NULL, FOREIGN KEY(anime_id) REFERENCES Animes(anime_id))')
+    database.commit()
+
+    # populate the db
+    request.get('http://populate_db:80/populate_database')
+    return "SetUp Done"
 
 @app.route('/Animes')
 def animes_main_page():

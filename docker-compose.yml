@@ -2,27 +2,34 @@ version: '3.3'
 
 services:
 
-    anime_database:
-        image: pedro4064/anime-nas-db
-        container_name: anime_database
-        restart: always
-        environment: 
-            - MYSQL_ROOT_PASSWORD=P3dr0mysql
-            - MYSQL_USER=root
-            - MYSQL_PASSWORD=P3dr0mysql
-            - MYSQL_DATABASE=Anime_NAS
-        ports: 
-            - 3306:3306
 
-    anime_web_app:
-            image: pedro4064/anime_nas
-            container_name: anime_web_app
-            restart: always
-            depends_on:
-                    - anime_database
+        anime_database:
+                image: pedro4064/anime-nas-db
+                container_name: anime_database
+                restart: always
+                environment: 
+                - MYSQL_ROOT_PASSWORD=P3dr0mysql
+                - MYSQL_USER=root
+                - MYSQL_PASSWORD=P3dr0mysql
+                - MYSQL_DATABASE=Anime_NAS
+                ports: 
+                - 3306:3306
 
-            volumes:
-                    - /media/pi/PEDRO\ CRUZ/static/Animes:/static/Animes
-            ports:
-                    - "80:80"
+        populate_db:
+                image: pedro4064/anime_nas_populate_db
+                container_name: populate_db
+                depends_on:
+                        - anime_database
+                        
+        anime_web_app:
+                image: pedro4064/anime_nas
+                container_name: anime_web_app
+                restart: always
+                depends_on:
+                        - anime_database
+
+                volumes:
+                        - /media/pi/PEDRO\ CRUZ/static/Animes:/static/Animes
+                ports:
+                        - "80:80"
 
