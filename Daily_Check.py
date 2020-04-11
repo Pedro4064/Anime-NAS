@@ -1,5 +1,7 @@
 from Anime_NAS import sql_connector,convert_tuple, get_titles_from_ids
 from Moe import Moe
+import datetime
+import time
 import requests
 import os
 
@@ -86,7 +88,7 @@ def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_re
     # Get the anime title so we can change to the correct directory
     anime_title = get_titles_from_ids(ids = [anime_id])[0]['anime_title']
 
-    base_directory = '/Users/pedrocruz/Desktop/Anime/'
+    base_directory = '/Animes'
     anime_directory = base_directory+anime_title.replace('.','_').replace('/','_').replace(':','')
     static_path = 'Animes/'+anime_title.replace('.','_').replace('/','_').replace(':','')+'/%s'
 
@@ -137,22 +139,36 @@ def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_re
 
 if __name__ == '__main__':
 
-    watching_list = get_watching_list()
+    # Get the current hour
+    hour = datetime.datetime.now().hour
 
-    for anime_id in watching_list:
+    # If the time is one of the below, check for new episodes
+    if hour == 3 or hour == 21:
 
-        # Get a list of dicts containing the anime_id and the episode_number
-        downloaded_episodes = get_downloaded_episodes(anime_id=anime_id)
+        # Get the a list containing the ids for the animes you are currently watching
+        watching_list = get_watching_list()
 
-        # Get the main url for that anime, so we can get a list of all released animes
-        main_anime_url = get_main_url_from_id(anime_id)
+        # Itertate through each anime_id
+        for anime_id in watching_list:
 
-        # Get all animes released so far
-        referers,raw_mp4_urls = get_anime_links(anime_url=main_anime_url)
+            # Get a list of dicts containing the anime_id and the episode_number
+            downloaded_episodes = get_downloaded_episodes(anime_id=anime_id)
 
-        # Get only the data for the newly added episodes
-        referers = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=referers)
-        raw_mp4_urls = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=raw_mp4_urls)
+            # Get the main url for that anime, so we can get a list of all released animes
+            main_anime_url = get_main_url_from_id(anime_id)
 
-        # Download the new episodes
-        download_new_releases(anime_id=anime_id,number_of_downloaded_episodes=len(downloaded_episodes),new_releases_referers=referers,new_releases_raw_mp4=raw_mp4_urls)
+            # Get all animes released so far
+            referers,raw_mp4_urls = get_anime_links(anime_url=main_anime_url)
+
+            # Get only the data for the newly added episodes
+            referers = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=referers)
+            raw_mp4_urls = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=raw_mp4_urls)
+
+            # Download the new episodes
+            download_new_releases(anime_id=anime_id,number_of_downloaded_episodes=len(downloaded_episodes),new_releases_referers=referers,new_releases_raw_mp4=raw_mp4_urls)
+
+            # sleep for an hour
+            time.sleep(3600)
+
+    else:
+        time.sleep(60*30)
