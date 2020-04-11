@@ -17,7 +17,6 @@ services:
                 # volumes:
 
                 
-
         populate_db:
                 image: pedro4064/anime_nas_populate_db
                 container_name: populate_db                
@@ -36,6 +35,7 @@ services:
                 ports:
                         - "5000:80"
 
+
         anime_web_app:
                 image: pedro4064/anime_nas
                 container_name: anime_web_app
@@ -48,3 +48,9 @@ services:
                 ports:
                         - "80:80"
 
+        anime_daily_check:
+                image: pedro4064/anime_nas_daiy_check
+                container_name: anime_daily_check
+                restart: always
+                volumes:
+                        - /media/pi/PEDRO CRUZ/Animes:/animes
