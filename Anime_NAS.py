@@ -391,8 +391,7 @@ def add_to_download(anime_id):
     database.commit()
 
     #################### Use to call another python script (the one to download) #########################
-    commands = ["/Library/Frameworks/Python.framework/Versions/3.7/bin/python3.7", "/Users/pedrocruz/Desktop/Programming/Python/Git/Anime-NAS/Download_Animes.py", anime_id]
-    subprocess.Popen(commands,  stdout=subprocess.PIPE)
+    requests.get('http://anime_download:80/download_anime/anime_id=%s' %(anime_id))
     ######################################################################################################
 
     # redirect to the main page
