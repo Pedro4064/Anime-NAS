@@ -27,9 +27,9 @@ RUN mkdir scripts
 WORKDIR /scripts
 
 # Copy the necessary scripts
-COPY ./Populate_db.py /scripts
-COPY ./Moe.py /scripts
-COPY ./cover_crawler.py /scripts
-COPY ./Anime_NAS.py /scripts
+COPY Populate_db.py /scripts
+COPY Moe.py /scripts
+COPY cover_crawler.py /scripts
+COPY Anime_NAS.py /scripts
 
 CMD [ "python3","Populate_db.py" ]
