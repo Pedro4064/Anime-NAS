@@ -18,6 +18,7 @@ def download_episode():
     global mp4_urls
     global referers
     global anime_data
+    global episodes_numbers
 
     # Check to see if there are more episodes to download, if not, exit the function 
     if len(mp4_urls) == 0:
@@ -29,6 +30,9 @@ def download_episode():
 
     referer = referers[0]
     referers = referers[1:]
+
+    episode_number = episodes_numbers[0]
+    episodes_numbers = episodes_numbers[1:]
 
     # Change to the correct directory 
     os.chdir('/animes/%s' %(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','')))
@@ -81,6 +85,7 @@ def download_all_episodes_from_id(anime_id):
     global mp4_urls
     global referers
     global anime_data
+    global episodes_numbers
 
     # Create an instace of the moe class
     twist_moe = Moe.Moe()
@@ -99,6 +104,7 @@ def download_all_episodes_from_id(anime_id):
 
     # Get two lists, one with the raw urls and another with their referers
     mp4_urls,referers = twist_moe.get_raw_urls(url=anime_data['main_url'],nEpisodes=1000)
+    episodes_numbers = range(1,len(referers)+1)
 
     # clear the webdriver
     twist_moe.finish()
@@ -117,14 +123,15 @@ def download_all_episodes_from_id(anime_id):
 
     
     # Create 5 threads to download 5 episodes Cconcurrently
-    threads = []
-    for i in range(5):
+    # threads = []
+    # for i in range(5):
 
-        threads.append(threading.Thread(target=download_episode))
-        threads[i].start()
+    #     threads.append(threading.Thread(target=download_episode))
+    #     threads[i].start()
 
-    for thread in threads:
-        thread.join()
+    # for thread in threads:
+    #     thread.join()
+    download_episode()
         
     return 'DOWNLOADING %s' %(anime_data['anime_title'])
 
