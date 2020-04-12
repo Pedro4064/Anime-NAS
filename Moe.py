@@ -21,7 +21,7 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
         self.driver = webdriver.Chrome(driverPath,options=self.options)
 
         # The wait for elements config -> 10 seconds
-        self.wait = webdriver.support.ui.WebDriverWait(self.driver,10)
+        self.wait = webdriver.support.ui.WebDriverWait(self.driver,50)
 
         # Main twist Mow url 
         self.mainURL = 'https://twist.moe'
