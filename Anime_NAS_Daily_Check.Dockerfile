@@ -18,7 +18,7 @@ RUN wget http://launchpadlibrarian.net/361669488/chromium-chromedriver_65.0.3325
 # Install python3 , pip, and all the packages necessary
 RUN apt-get install -y python3 \
     && apt-get install -y python3-pip \
-    && pip3 install  mysql-connector requests selenium
+    && pip3 install flask  mysql-connector requests selenium
 
 
 
