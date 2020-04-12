@@ -14,7 +14,6 @@ services:
                         - MYSQL_DATABASE=Anime_NAS
                 ports: 
                         - 3306:3306
-                # volumes:
 
                 
         populate_db:
@@ -31,7 +30,7 @@ services:
                 depends_on:
                         - anime_database
                 volumes:
-                        - /media/pi/PEDRO_CRUZ/Animes:/animes
+                        - /media/pi/DISK/Animes:/animes
                 ports:
                         - "5000:80"
 
@@ -44,7 +43,7 @@ services:
                         - anime_database
 
                 volumes:
-                        - /media/pi/PEDRO_CRUZ/Animes:/static/Animes
+                        - /media/pi/DISK/Animes:/static/Animes
                 ports:
                         - "80:80"
 
@@ -53,4 +52,4 @@ services:
                 container_name: anime_daily_check
                 restart: always
                 volumes:
-                        - /media/pi/PEDRO_CRUZ/Animes:/animes
+                        - /media/pi/DISK/Animes:/animes
