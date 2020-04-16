@@ -139,36 +139,38 @@ def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_re
 
 if __name__ == '__main__':
 
-    # Get the current hour
-    hour = datetime.datetime.now().hour
+    while True:
+            
+        # Get the current hour
+        hour = datetime.datetime.now().hour
 
-    # If the time is one of the below, check for new episodes
-    if hour == 3 or hour == 21:
+        # If the time is one of the below, check for new episodes
+        if hour == 3 or hour == 21:
 
-        # Get the a list containing the ids for the animes you are currently watching
-        watching_list = get_watching_list()
+            # Get the a list containing the ids for the animes you are currently watching
+            watching_list = get_watching_list()
 
-        # Itertate through each anime_id
-        for anime_id in watching_list:
+            # Itertate through each anime_id
+            for anime_id in watching_list:
 
-            # Get a list of dicts containing the anime_id and the episode_number
-            downloaded_episodes = get_downloaded_episodes(anime_id=anime_id)
+                # Get a list of dicts containing the anime_id and the episode_number
+                downloaded_episodes = get_downloaded_episodes(anime_id=anime_id)
 
-            # Get the main url for that anime, so we can get a list of all released animes
-            main_anime_url = get_main_url_from_id(anime_id)
+                # Get the main url for that anime, so we can get a list of all released animes
+                main_anime_url = get_main_url_from_id(anime_id)
 
-            # Get all animes released so far
-            referers,raw_mp4_urls = get_anime_links(anime_url=main_anime_url)
+                # Get all animes released so far
+                referers,raw_mp4_urls = get_anime_links(anime_url=main_anime_url)
 
-            # Get only the data for the newly added episodes
-            referers = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=referers)
-            raw_mp4_urls = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=raw_mp4_urls)
+                # Get only the data for the newly added episodes
+                referers = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=referers)
+                raw_mp4_urls = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=raw_mp4_urls)
 
-            # Download the new episodes
-            download_new_releases(anime_id=anime_id,number_of_downloaded_episodes=len(downloaded_episodes),new_releases_referers=referers,new_releases_raw_mp4=raw_mp4_urls)
+                # Download the new episodes
+                download_new_releases(anime_id=anime_id,number_of_downloaded_episodes=len(downloaded_episodes),new_releases_referers=referers,new_releases_raw_mp4=raw_mp4_urls)
 
-            # sleep for an hour
-            time.sleep(3600)
+                # sleep for an hour
+                time.sleep(3600)
 
-    else:
-        time.sleep(60*30)
+        else:
+            time.sleep(60*30)
