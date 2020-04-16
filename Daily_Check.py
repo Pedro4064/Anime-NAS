@@ -152,6 +152,9 @@ if __name__ == '__main__':
 
             # Itertate through each anime_id
             for anime_id in watching_list:
+                
+                # Get the id from the dict
+                anime_id = int(anime_id['anime_id'])
 
                 # Get a list of dicts containing the anime_id and the episode_number
                 downloaded_episodes = get_downloaded_episodes(anime_id=anime_id)
