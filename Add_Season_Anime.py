@@ -12,6 +12,7 @@ app = Flask(__name__)
 @app.route('/update')
 def update_database_season_anime():
 
+
     # Get the animes already in the database ---- returns a list of dicts with anime_id and anime_title
     anime_in_database = get_all_anime_in_database()
 
@@ -90,3 +91,7 @@ def update_database_season_anime():
         # add to the db
         myCursor.execute("INSERT INTO Covers(anime_id,cover_path) VALUES (%s,'%s')"%(anime['anime_id'],cover_url))
         database.commit()
+
+    return "[DONE]"
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=80)
