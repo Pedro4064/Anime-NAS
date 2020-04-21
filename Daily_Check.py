@@ -88,7 +88,7 @@ def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_re
     # Get the anime title so we can change to the correct directory
     anime_title = get_titles_from_ids(ids = [anime_id])[0]['anime_title']
 
-    base_directory = '/Animes'
+    base_directory = '/Animes/'
     anime_directory = base_directory+anime_title.replace('.','_').replace('/','_').replace(':','')
     static_path = 'Animes/'+anime_title.replace('.','_').replace('/','_').replace(':','')+'/%s'
 
