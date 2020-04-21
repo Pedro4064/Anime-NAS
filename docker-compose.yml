@@ -52,7 +52,7 @@ services:
                 container_name: anime_daily_check
                 restart: always
                 volumes:
-                        - /media/pi/DISK/Animes:/animes
+                        - /media/pi/DISK/Animes:/Animes
 
         season_anime_update:
                 image: pedro4064/anime_nas_season_anime_update
