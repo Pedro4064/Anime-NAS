@@ -29,21 +29,28 @@ def sql_connector():
 def convert_tuple(data:tuple, keys:list, return_type:'The type of return expected - list or dict'):
     # convert a tuple to a json dict
 
+
     json_data = []
+    anime_dict = {} 
 
     # Goes through each anime 
     for anime in data:
         
-        anime_dict = {}
+        try:
 
-        # For every key in the keys list, add it to the anime_dict with its corresponding data on the anime tuple
-        for index,key in enumerate(keys):
+            print(anime)
+            anime_dict = {}
 
-            anime_dict[key] = anime[index]
+            # For every key in the keys list, add it to the anime_dict with its corresponding data on the anime tuple
+            for index,key in enumerate(keys):
+                anime_dict[key] = anime[index]
 
-        # append the dictionary to the json_data list
-        json_data.append(anime_dict)
+            # append the dictionary to the json_data list
+            json_data.append(anime_dict)
             
+        except Exception as e:
+            print(e)
+
     # return the json list if the return_type is  'LIST'
     if return_type == 'LIST':
         return json_data
@@ -52,6 +59,7 @@ def convert_tuple(data:tuple, keys:list, return_type:'The type of return expecte
     elif return_type == 'DICT':
         return anime_dict
 
+    
 
 def get_all_anime_in_database():
 
@@ -78,9 +86,11 @@ def get_favorited_anime():
 
     # format the data
     favorites = convert_tuple(data = raw_favorites, keys = ['anime_id'], return_type = 'LIST')
+    print(json.dumps(favorites,indent=4))
 
     # Get a new list of dicts that will have: anime_id and cover path
-    favorites = [get_covers_from_ids([anime_data['anime_id']])[0] for anime_data in favorites ]
+    favorites = [get_covers_from_ids([anime_data.get('anime_id')])[0] for anime_data in favorites ]
+    print(json.dumps(favorites,indent=4))
 
     return favorites
 
@@ -111,14 +121,19 @@ def get_covers_from_ids(ids:list):
 
     for anime_id in ids:
 
+        print(anime_id) 
         myCursor.execute('SELECT cover_path FROM Covers WHERE anime_id=%d' %(anime_id))
         cover_path = myCursor.fetchall()
+        print('cover_path',cover_path)
 
         # format the data
         cover_path = convert_tuple(data=cover_path, keys=['cover_path'],return_type='DICT')
 
         # format the dict and append it to the list
-        anime_dict = {'anime_id': anime_id, 'cover_path': cover_path['cover_path']}
+        anime_dict = {'anime_id': anime_id, 'cover_path': cover_path.get('cover_path')}
+        print('anime_dict') 
+        print(json.dumps(anime_dict,indent=4)) 
+
         anime_data.append(anime_dict)
 
 
