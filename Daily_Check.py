@@ -3,6 +3,7 @@ from Moe import Moe
 import datetime
 import time
 import requests
+import json
 import os
 
 def get_watching_list():
@@ -53,8 +54,12 @@ def get_downloaded_episodes(anime_id:int):
 def get_anime_links(anime_url):
 
     twist_moe = Moe()
-    print(anime_url)
+    print('Anime URL - ',anime_url)
     mp4_urls,referers = twist_moe.get_raw_urls(url=anime_url,nEpisodes=1000)
+    
+    twist_moe.finish()
+    print(json.dumps(mp4_urls, indent=4))
+    print(json.dumps(referers, indent=4))
 
     # Return both the referers and the raw urls
     return mp4_urls,referers
@@ -101,29 +106,32 @@ def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_re
     
     for raw_url,referer in zip(new_releases_raw_mp4,new_releases_referers):
         
-         # Set up the session config
+        # Set up the session config
         session = requests.Session()
         session.headers.update({'referer':referer})
 
-        print(raw_url)
-        print(referer)
+        print('referer - ', referer)
+        print('mp4 url - ', raw_url)
 
         # A Bool to determine if the download was successful
         done = False
         while done == False:
 
             # Make a request to the url
-            response = session.get(raw_url, stream=True)
+            response = session.get(raw_url,stream=True)
             
+            
+            # format the file name
             file_name = anime_title.replace('.','_').replace('/','_').replace(':','')+'_'+str(episode_number)+'.mp4'
             
 
             # Create the .mp4 file and write binary content
             with open(file_name,'wb') as video_file:
 
-                # Iterate through the content, so not every thing is stored in memory at the same time
+                # Iterate through the contect so not everything is stored in memory at once
                 for chunk in response.iter_content(512):
                     video_file.write(chunk)
+
 
             # Check to see the size of the file, if it is too small and error happened
             if os.path.getsize(file_name) < 10000:
@@ -132,7 +140,6 @@ def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_re
 
             else:
                 done = True
-
         
         # Update the database
         MyCursor.execute("INSERT INTO Downloads(anime_id,episode_number,file_path) VALUES(%d,%d,'%s')" %(anime_id,episode_number,static_path %(file_name)))
@@ -172,11 +179,14 @@ if __name__ == '__main__':
                 main_anime_url = get_main_url_from_id(anime_id)
 
                 # Get all animes released so far
-                referers,raw_mp4_urls = get_anime_links(anime_url=main_anime_url)
+                raw_mp4_urls,referers = get_anime_links(anime_url=main_anime_url)
 
                 # Get only the data for the newly added episodes
                 referers = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=referers)
                 raw_mp4_urls = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=raw_mp4_urls)
+
+                print(json.dumps(referers,indent=4))
+                print(json.dumps(raw_mp4_urls,indent=4))
 
                 # If there are no new episodes, continue to next iteration 
                 if referers == None:
@@ -192,8 +202,8 @@ if __name__ == '__main__':
                 print(e)
             
             # Sleep to avoid twist moe purging the ip for too many requests 
-            print("Sleeping for 5 minutes...")
-            time.sleep(60*5)
+            # print("Sleeping for 5 minutes...")
+            # time.sleep(60*5)
         
         # sleep for an hour
         time.sleep(3600)
