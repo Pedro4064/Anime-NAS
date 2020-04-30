@@ -53,6 +53,7 @@ def get_downloaded_episodes(anime_id:int):
 def get_anime_links(anime_url):
 
     twist_moe = Moe()
+    print(anime_url)
     mp4_urls,referers = twist_moe.get_raw_urls(url=anime_url,nEpisodes=1000)
 
     # Return both the referers and the raw urls
@@ -104,6 +105,9 @@ def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_re
         session = requests.Session()
         session.headers.update({'referer':referer})
 
+        print(raw_url)
+        print(referer)
+
         # A Bool to determine if the download was successful
         done = False
         while done == False:
@@ -143,19 +147,24 @@ if __name__ == '__main__':
             
         # Get the current hour
         hour = datetime.datetime.now().hour
+        print('hour:',hour)
 
         # If the time is one of the below, check for new episodes
-        if hour == 3 or hour == 21:
+        # if hour == 3 or hour == 24 or hour==0 or hour==17:
 
             # Get the a list containing the ids for the animes you are currently watching
-            watching_list = get_watching_list()
+        watching_list = get_watching_list()
+        print(watching_list)
 
-            # Itertate through each anime_id
-            for anime_id in watching_list:
-                
+        # Itertate through each anime_id
+        for anime_id in watching_list:
+            
+            try:
                 # Get the id from the dict
                 anime_id = int(anime_id['anime_id'])
 
+                print('Anime ID',anime_id)
+                
                 # Get a list of dicts containing the anime_id and the episode_number
                 downloaded_episodes = get_downloaded_episodes(anime_id=anime_id)
 
@@ -169,11 +178,25 @@ if __name__ == '__main__':
                 referers = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=referers)
                 raw_mp4_urls = parse_new_episodes(downloaded_episodes=downloaded_episodes,released_episodes=raw_mp4_urls)
 
+                # If there are no new episodes, continue to next iteration 
+                if referers == None:
+                    print('no new episodes ...')
+                    continue
+
                 # Download the new episodes
                 download_new_releases(anime_id=anime_id,number_of_downloaded_episodes=len(downloaded_episodes),new_releases_referers=referers,new_releases_raw_mp4=raw_mp4_urls)
 
-                # sleep for an hour
-                time.sleep(3600)
+            
 
-        else:
-            time.sleep(60*30)
+            except Exception as e:
+                print(e)
+            
+            # Sleep to avoid twist moe purging the ip for too many requests 
+            print("Sleeping for 5 minutes...")
+            time.sleep(60*5)
+        
+        # sleep for an hour
+        time.sleep(3600)
+
+        # else:
+        #     time.sleep(60*30)
