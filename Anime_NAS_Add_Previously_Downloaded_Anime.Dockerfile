@@ -15,7 +15,7 @@ RUN mkdir scripts
 WORKDIR /scripts
 
 # Copy the necessary scripts 
-# COPY Anime_NAS.py /scripts
-# COPY ./templates /scripts/templates
+COPY Anime_NAS.py /scripts
+COPY Add_Previously_Downloaded_Anime.py /scripts
 
 CMD [ "python3","Add_Previously_Downloaded_Anime.py" ]
