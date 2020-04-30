@@ -88,9 +88,6 @@ def parse_new_episodes(downloaded_episodes:'list of all episodes downloaded for 
 
 def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_referers:list, new_releases_raw_mp4:list):
 
-    # Get the tools to access the database
-    database,MyCursor = sql_connector()
-
     # Get the anime title so we can change to the correct directory
     anime_title = get_titles_from_ids(ids = [anime_id])[0]['anime_title']
 
@@ -140,6 +137,9 @@ def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_re
 
             else:
                 done = True
+        
+        # Get the tools to access the database
+        database,MyCursor = sql_connector()
         
         # Update the database
         MyCursor.execute("INSERT INTO Downloads(anime_id,episode_number,file_path) VALUES(%d,%d,'%s')" %(anime_id,episode_number,static_path %(file_name)))
