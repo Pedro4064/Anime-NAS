@@ -28,8 +28,8 @@ RUN mkdir Animes
 WORKDIR /scripts
 
 # Copy the necessary scripts
-COPY Moe.py /scripts
-COPY Anime_NAS.py /scripts
-COPY Daily_Check.py /scripts
+# COPY Moe.py /scripts
+# COPY Anime_NAS.py /scripts
+# COPY Daily_Check.py /scripts
 
 CMD [ "python3","Daily_Check.py" ]
