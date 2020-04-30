@@ -2,6 +2,21 @@ import Anime_NAS
 import os
 import time
 
+def logo():
+
+    ascii_logo = """
+
+                 _                  _   _           _____ 
+     /\         (_)                | \ | |   /\    / ____|
+    /  \   _ __  _ _ __ ___   ___  |  \| |  /  \  | (___  
+   / /\ \ | '_ \| | '_ ` _ \ / _ \ | . ` | / /\ \  \___ \ 
+  / ____ \| | | | | | | | | |  __/ | |\  |/ ____ \ ____) |
+ /_/    \_\_| |_|_|_| |_| |_|\___| |_| \_/_/    \_\_____/ 
+                               ______                     
+                              |______|                    
+"""
+    print(ascii_logo)
+    
 def get_user_input():
 
     anime_title = input('Anime title- ')
@@ -37,7 +52,7 @@ def get_anime_id(anime_title:str):
         print(anime.get('anime_id'),"--",anime.get('anime_title'))
 
     # correct anime_id
-    correct_anime_id = int(input('-ID for the correct anime - '))
+    correct_anime_id = int(input('ID for the correct anime - '))
 
     # return the id
     return correct_anime_id
@@ -68,7 +83,8 @@ def update_db(anime_id:int, number_of_episodes:int, anime_title:str):
 if __name__ == '__main__':
 
     os.system('clear')
-    
+    logo()
+
     anime_data = get_user_input()
     
     # Get the anime id
