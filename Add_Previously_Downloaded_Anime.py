@@ -1,16 +1,11 @@
 import Anime_NAS
 import os
-
-def logo():
-
-    logo_ascii = """
-
-    """
+import time
 
 def get_user_input():
 
-    anime_title = input('•Anime title- ')
-    number_of_episodes = int(input('•Number of episodes downloaded- '))
+    anime_title = input('Anime title- ')
+    number_of_episodes = int(input('Number of episodes downloaded- '))
     anime_id = ''
 
     # Create a dict containing all the info
@@ -27,8 +22,8 @@ def get_anime_id(anime_title:str):
     # Get a list with the names and ids of all animes that have similar title 
     sql_command = r"SELECT anime_id,anime_title FROM Animes WHERE anime_title LIKE '%%" + anime_title + r"%%'"
 
-    # Excecute the command
-    my_cursor.excecute(sql_command)
+    # execute the command
+    my_cursor.execute(sql_command)
 
     # Fetch the results 
     raw_results = my_cursor.fetchall()
@@ -42,7 +37,7 @@ def get_anime_id(anime_title:str):
         print(anime.get('anime_id'),"--",anime.get('anime_title'))
 
     # correct anime_id
-    correct_anime_id = int(input('•ID for the correct anime - '))
+    correct_anime_id = int(input('-ID for the correct anime - '))
 
     # return the id
     return correct_anime_id
@@ -54,7 +49,7 @@ def update_db(anime_id:int, number_of_episodes:int, anime_title:str):
 
     # Add the anime to the Animes_Download_List table 
     sql_command = "INSERT INTO Animes_Download_List(anime_id) VALUES(%d)" %(anime_id)
-    my_cursor.excecute(sql_command)
+    my_cursor.execute(sql_command)
     my_database.commit()
 
 
@@ -75,5 +70,11 @@ if __name__ == '__main__':
     os.system('clear')
     
     anime_data = get_user_input()
+    
+    # Get the anime id
     anime_id = get_anime_id(anime_data['anime_title'])
-    update_db(anime_id,number_of_episodes=anime_data['number_of_episodes'],anime_title=anime_data['anime_title'])
+
+    # Get the correct anime title from the id 
+    anime_title = Anime_NAS.get_titles_from_ids([anime_id])[0]['anime_title']
+
+    update_db(anime_id,number_of_episodes=anime_data['number_of_episodes'],anime_title=anime_title)
