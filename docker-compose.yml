@@ -16,11 +16,11 @@ services:
                         - 3306:3306
 
                 
-        populate_db:
-                image: pedro4064/anime_nas_populate_db
-                container_name: populate_db                
-                depends_on:
-                        - anime_database
+        # populate_db:
+        #         image: pedro4064/anime_nas_populate_db
+        #         container_name: populate_db                
+        #         depends_on:
+        #                 - anime_database
         
 
         anime_download:
@@ -44,20 +44,28 @@ services:
 
                 volumes:
                         - /media/pi/DISK/Animes:/static/Animes
+                        - /home/pi/Documents/Docker/Anime-NAS:/scripts
                 ports:
                         - "80:80"
 
-        anime_daily_check:
-                image: pedro4064/anime_nas_daily_check
-                container_name: anime_daily_check
-                restart: always
-                volumes:
-                        - /media/pi/DISK/Animes:/Animes
+        # anime_daily_check:
+        #         image: pedro4064/anime_nas_daily_check
+        #         container_name: anime_daily_check
+        #         restart: always
+        #         volumes:
+        #                 - /media/pi/DISK/Animes:/Animes
+        #                 - /home/pi/Documents/Docker/Anime-NAS:/scripts 
 
-        season_anime_update:
-                image: pedro4064/anime_nas_season_anime_update
-                container_name: season_anime_update
-                depends_on:
+        # season_anime_update:
+        #         image: pedro4064/anime_nas_season_anime_update
+        #         container_name: season_anime_update
+        #         depends_on:
+        #                 - anime_database
+        #         ports: 
+        #                 - "8080:80"
+
+        add_previously_downloaded_anime:
+                image: pedro4064/add_previously_downloaded_anime
+                container_name: add_previously_downloaded_anime
+                depends_on: 
                         - anime_database
-                ports: 
-                        - "8080:80"
