@@ -1,3 +1,4 @@
+![](images/GthubLogo.png)
 # ANIME N.A.S
 
 • Web app writen in Python using Flask and MySQL to manage and download animes;
