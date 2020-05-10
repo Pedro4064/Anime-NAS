@@ -44,7 +44,7 @@ services:
 
                 volumes:
                         - /media/pi/DISK/Animes:/static/Animes
-                        - /home/pi/Documents/Docker/Anime-NAS:/scripts
+                        # - /home/pi/Documents/Docker/Anime-NAS:/scripts
                 ports:
                         - "80:80"
 
