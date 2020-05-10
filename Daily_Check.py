@@ -205,8 +205,8 @@ if __name__ == '__main__':
             # print("Sleeping for 5 minutes...")
             # time.sleep(60*5)
         
-        # sleep for an hour
-        time.sleep(3600)
+        # sleep for 10 hours 
+        time.sleep(60*60*10)
 
         # else:
         #     time.sleep(60*30)
