@@ -54,7 +54,7 @@ services:
                 restart: always
                 volumes:
                         - /media/pi/DISK/Animes:/Animes
-                        - /home/pi/Documents/Docker/Anime-NAS:/scripts 
+                        # - /home/pi/Documents/Docker/Anime-NAS:/scripts 
 
         season_anime_update:
                 image: pedro4064/anime_nas_season_anime_update
