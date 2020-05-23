@@ -151,15 +151,15 @@ def download_new_releases(anime_id,number_of_downloaded_episodes,new_releases_re
 if __name__ == '__main__':
 
     while True:
+        
+        # sleep for 10 hours 
+        time.sleep(60*60*10)
             
         # Get the current hour
         hour = datetime.datetime.now().hour
         print('hour:',hour)
 
-        # If the time is one of the below, check for new episodes
-        # if hour == 3 or hour == 24 or hour==0 or hour==17:
-
-            # Get the a list containing the ids for the animes you are currently watching
+        # Get the a list containing the ids for the animes you are currently watching
         watching_list = get_watching_list()
         print(watching_list)
 
@@ -201,12 +201,3 @@ if __name__ == '__main__':
             except Exception as e:
                 print(e)
             
-            # Sleep to avoid twist moe purging the ip for too many requests 
-            # print("Sleeping for 5 minutes...")
-            # time.sleep(60*5)
-        
-        # sleep for 10 hours 
-        time.sleep(60*60*10)
-
-        # else:
-        #     time.sleep(60*30)
