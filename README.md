@@ -71,7 +71,9 @@ sudo apt-get install exfat-utils
       `chmod +x set_up.sh`
 
    3. Run the bash script that will download all the necessary tools and set up the whole system, you should pass the path to the hardrive as an argument, where all the anime episodes and data are going to be stored:
-      `sudo ./set_up.sh path_to_hardrive`
+      ```bash
+      sudo ./set_up.sh path_to_hardrive
+      ```
    
    obs: replace `path_to_hardrive` with the path to your HDD
 
