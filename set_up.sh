@@ -11,11 +11,11 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 
 # ADD THE PI USER TO DOCKER SO IT WONT NEED TO RUN AS ROOT
-sudo usermod -aG docker Pi
+sudo usermod -aG docker pi
 
 # PIP INSTALL DOCKER-COMPOSE
 echo "Downloading docker-compose ..."
-pip install docker-compose
+pip3 install docker-compose
 
 # CURL TO DOWNLOAD THE DOCKER-COMPOSE.YML
 curl https://raw.githubusercontent.com/Pedro4064/Anime-NAS/Docker_Develop/docker-compose.yml > docker-compose.yml
