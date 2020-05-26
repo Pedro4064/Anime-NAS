@@ -44,6 +44,23 @@
 
 ## Getting Started
 
+• Make sure your system is running the latest version of raspbian by running:
+
+```bash
+sudo apt-get update
+sudo apt-get upgrade
+sudo reboot
+```
+
+• Install the driver that lets you read an exFAT file system Hard Drive (Most Hard Drives) by typing:
+
+```bash
+sudo apt install exfat-fuse
+sudo apt-get install exfat-utils
+ ```
+
+• After you install the driver, you can connect the HDD/SSD to the raspberry pi.
+
 • Since the whole system is built with docker, the instalation is straight forward:
 
    1. Download the [set_up.sh](set_up.sh) file by typing the following command in the terminal:
