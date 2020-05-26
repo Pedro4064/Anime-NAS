@@ -1,7 +1,7 @@
 ![](images/GthubLogo.png)
 # ANIME N.A.S
 
-• ANIME N.A.S is a Raspberry pi based home anime server, writen in python and built around docker, that downloads and manages your anime through a local MySQL database and python. 
+• ANIME N.A.S is a Raspberry pi based home anime server, writen in python and built around docker, that automatically downloads and manages your anime colection. 
 
 ![GitHub top language](https://img.shields.io/github/languages/top/Pedro4064/Anime-NAS)
 ![GitHub](https://img.shields.io/github/license/Pedro4064/Anime-NAS)
@@ -46,14 +46,14 @@
 
 • Since the whole system is built with docker, the instalation is straight forward:
 
-   1. Download the [set_up.h]() file by typing the following command in the terminal:
+   1. Download the [set_up.sh](set_up.sh) file by typing the following command in the terminal:
       `curl https://raw.githubusercontent.com/Pedro4064/Anime-NAS/Docker_Develop/set_up.sh > set_up.sh`
    
    2. After the download is complete, make the file excecutable:
       `chmod +x set_up.sh`
 
    3. Run the bash script that will download all the necessary tools and set up the whole system, you should pass the path to the hardrive as an argument, where all the anime episodes and data are going to be stored:
-      `./set_up.sh path_to_hardrive`
+      `sudo ./set_up.sh path_to_hardrive`
    <br>
    *obs: replace `path_to_hardrive` with the path to your HDD
 
