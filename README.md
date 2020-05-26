@@ -64,6 +64,7 @@ sudo apt-get install exfat-utils
 • Since the whole system is built with docker, the instalation is straight forward:
 
    1. Download the [set_up.sh](set_up.sh) file by typing the following command in the terminal:
+   
       `curl https://raw.githubusercontent.com/Pedro4064/Anime-NAS/Docker_Develop/set_up.sh > set_up.sh`
    
    2. After the download is complete, make the file excecutable:
@@ -72,7 +73,7 @@ sudo apt-get install exfat-utils
    3. Run the bash script that will download all the necessary tools and set up the whole system, you should pass the path to the hardrive as an argument, where all the anime episodes and data are going to be stored:
       `sudo ./set_up.sh path_to_hardrive`
    <br>
-   *obs: replace `path_to_hardrive` with the path to your HDD
+   obs: replace `path_to_hardrive` with the path to your HDD
 
    
    4. Once information stops being printed to the terminal, the system setup is done. To initialize and populate the database, access (on your browser):
