@@ -1,10 +1,10 @@
+# -*- coding: UTF-8 -*-
 from flask import Flask, render_template, request
 from Anime_NAS import convert_tuple, sql_connector, get_all_anime_in_database
 from cover_crawler import cover_api
 from Moe import Moe
 import mysql.connector
 import json
-
 
 
 app = Flask(__name__)
@@ -36,6 +36,7 @@ def update_database_season_anime():
     # Create a new list with all the info for the new anime
     new_anime = [{'anime_title':anime['anime_title'], 'main_url':anime['main_url']} for anime in website_data if anime['anime_title'] in new_anime_title]
 
+    
 
     # the mysql command
     command = "INSERT INTO Animes (anime_title, main_url) VALUES ('%s','%s') "
@@ -58,14 +59,14 @@ def update_database_season_anime():
     for anime_title in new_anime_title:
 
         data_base,my_cursor = sql_connector()
-        my_cursor.execute("SELECT * FROM Animes WHERE anime_title='%s'" %(anime_title))
+        my_cursor.execute("SELECT anime_id,anime_title FROM Animes WHERE anime_title='%s'" %(anime_title))
         raw_anime_info = my_cursor.fetchall()
         anime_info = convert_tuple(data=raw_anime_info,keys=['anime_id','anime_title'],return_type='DICT')
 
         # append the data
         new_anime_info.append(anime_info)
 
-
+    print(json.dumps(new_anime_info, indent=4))
     
     # Get the covers
 
@@ -76,21 +77,24 @@ def update_database_season_anime():
     cover_data = []
     for anime in new_anime_info:
 
-        # Get the url for the cover
-        cover_url = crawler.get_cover(anime_title=anime['anime_title'])
+        try:
+            # Get the url for the cover
+            cover_url = crawler.get_cover(anime_title=anime['anime_title'])
 
-        # create a dict with the data and append it to the cover_data list
-        anime_info = {'anime_id':anime['anime_id'], 'cover_path':cover_url}
-        cover_data.append(anime_info)
-        print(json.dumps(anime, indent=4))
+            # create a dict with the data and append it to the cover_data list
+            anime_info = {'anime_id':anime['anime_id'], 'cover_path':cover_url}
+            cover_data.append(anime_info)
+            print(json.dumps(anime, indent=4))
 
-        # connect to mysql database
-        print('Getting mysql tools...')
-        database,myCursor = sql_connector()
-        
-        # add to the db
-        myCursor.execute("INSERT INTO Covers(anime_id,cover_path) VALUES (%s,'%s')"%(anime['anime_id'],cover_url))
-        database.commit()
+            # connect to mysql database
+            print('Getting mysql tools...')
+            database,myCursor = sql_connector()
+            
+            # add to the db
+            myCursor.execute("INSERT INTO Covers(anime_id,cover_path) VALUES (%s,'%s')"%(anime['anime_id'],cover_url))
+            database.commit()
+        except:
+            continue
 
     return "[DONE]"
 if __name__ == '__main__':
