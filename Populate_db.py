@@ -7,9 +7,10 @@ import json
 
 app = Flask(__name__)
 
+
 @app.route('/populate_database')
 def populate_database():
-        
+
     # Get all the data from the Twistmoe website
     print('Instantiating Moe class and getting all the anime in the website ...')
     twist_moe = Moe()
@@ -17,7 +18,7 @@ def populate_database():
 
     # connect to mysql database
     print('Getting mysql tools...')
-    database,myCursor = sql_connector()
+    database, myCursor = sql_connector()
 
     # the mysql command
     command = "INSERT INTO Animes (anime_title, main_url) VALUES ('%s','%s') "
@@ -25,12 +26,8 @@ def populate_database():
     # populate the db
     for anime in website_data:
 
-        # Format the command
-        # command = command % (anime['anime_title'],anime['main_url'])
-
         # Send the command
-        myCursor.execute(command % (anime['anime_title'].replace("'","").replace('(','').replace(')',''),anime['main_url']))
-
+        myCursor.execute(command % (anime['anime_title'], anime['main_url']))
 
         # commit the changes made to the db
         database.commit()
@@ -51,19 +48,21 @@ def populate_database():
         cover_url = crawler.get_cover(anime_title=anime['anime_title'])
 
         # create a dict with the data and append it to the cover_data list
-        anime_info = {'anime_id':anime['anime_id'], 'cover_path':cover_url}
+        anime_info = {'anime_id': anime['anime_id'], 'cover_path': cover_url}
         cover_data.append(anime_info)
         print(json.dumps(anime, indent=4))
 
         # connect to mysql database
         print('Getting mysql tools...')
-        database,myCursor = sql_connector()
-        
+        database, myCursor = sql_connector()
+
         # add to the db
-        myCursor.execute("INSERT INTO Covers(anime_id,cover_path) VALUES (%s,'%s')"%(anime['anime_id'],cover_url))
+        myCursor.execute("INSERT INTO Covers(anime_id,cover_path) VALUES (%s,'%s')" % (
+            anime['anime_id'], cover_url))
         database.commit()
 
     return "Database done populating"
+
 
 if __name__ == '__main__':
 
