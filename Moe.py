@@ -1,16 +1,17 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions
+from typing import Tuple
 import requests
 import json
 import time
-# Number of animes = 1584
 
-class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.By,webdriver.support.ui.WebDriverWait):
 
-    def __init__(self, driverPath:str = '/usr/lib/chromium-browser/chromedriver'):
+class Moe(webdriver.Chrome, webdriver.chrome.options.Options, webdriver.common.by.By, webdriver.support.ui.WebDriverWait):
 
-        # Added the headless option 
+    def __init__(self, driverPath: str = '/usr/lib/chromium-browser/chromedriver'):
+
+        # Added the headless option
         self.options = webdriver.chrome.options.Options()
         self.options.add_argument('--headless')
         self.options.add_argument('--headless')
@@ -18,59 +19,51 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
         self.options.add_argument('--disable-gpu')
 
         # Initialize the web driver
-        self.driver = webdriver.Chrome(driverPath,options=self.options)
+        self.driver = webdriver.Chrome(driverPath, options=self.options)
 
         # The wait for elements config -> 10 seconds
-        self.wait = webdriver.support.ui.WebDriverWait(self.driver,50)
+        self.wait = webdriver.support.ui.WebDriverWait(self.driver, 50)
 
-        # Main twist Mow url 
+        # Main twist Mow url
         self.mainURL = 'https://twist.moe'
-  
-    def __format_data(self,ids:list, names:list, urls:list):
 
-        formatte_data = [{'id':Id, 'anime_title':name, 'main_url': url} for Id,name,url in zip(ids,names,urls)]
+    def get_all_animes_in_database(self) -> list:
+        """Method that goes to the twist.moe website and gets all the anime titles and the urls for the first
+        episodes for every one of them. 
 
-        return formatte_data
-
-    def get_all_animes_in_database(self):
+        Returns:
+            list: A list of dictionaries that contain the 'anime_title' and 'main_url' for each anime on twist
+            moe 
+        """
 
         # Go to the main URL
         self.driver.get(self.mainURL)
 
         # wait for the first element to appear
-        ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, '//*[@id="__layout"]/div/div[1]/section/main/div[2]/nav/ul/li[1]/a')))
+        _ = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located(
+            (webdriver.common.by.By.XPATH, '//*[@id="__layout"]/div/div[1]/section/main/div[2]/nav/ul/li[1]/a')))
 
-        names = []
-        urls = []
-        ids = []
+        # Get all the animes html element on the page and save the title and url in a list of dictionaries
+        animes_data = self.driver.find_elements_by_class_name('series-title')
+        animes_data = [{'anime_title': anime.get_attribute('innerHTML').split(
+            '\n')[1].replace('            ', ''), 'main_url': anime.get_attribute('href')} for anime in animes_data[:5]]
 
-        # Try to get 10.000 names
-        for i in range(1,2000):
-            
-            try:
-                ids.append(i)
-                names.append(self.driver.find_element_by_xpath('//*[@id="__layout"]/div/div[1]/section/main/div[2]/nav/ul/li[%d]/a/span' %(i)).text)
-                urls.append(self.driver.find_element_by_xpath('//*[@id="__layout"]/div/div[1]/section/main/div[2]/nav/ul/li[%d]/a' %(i)).get_attribute('href'))
+        return animes_data
 
-                # print (str(i)+'-',self.driver.find_element_by_xpath('//*[@id="__layout"]/div/div[1]/section/main/div[2]/nav/ul/li[%d]/a/span' %(i)).text)
-            
+    def get_raw_urls(self, url: str, nEpisodes: int) -> Tuple[list, list]:
+        """Method that gets the raw mp4 urls for all the episodes of an anime
 
-            except:
+        Args:
+            url (str): The link of the first episode of the anime
+            nEpisodes (int): The number of episodes to get the raw mp4 url
 
-                # print(e)
-                continue
-
-        # format the data
-        data = self.__format_data(ids = ids, urls=urls,names=names)
-
-        return data
-
-    def get_raw_urls(self, url:'The anime url', nEpisodes:'The number of episodes it will try to get the url from'):
+        Returns:
+            Tuple(list, list): mp4_raw_urls, episodes' urls
+        """
 
         urls = []
         rawUrls = []
 
-        
         # Go to the url
         self.driver.get(url)
 
@@ -79,7 +72,8 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
 
             # wait for the first element to appear, if there is an element it is a series, set the firstItem as an xPath for series
             firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li[2]/a'
-            ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
+            _ = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located(
+                (webdriver.common.by.By.XPATH, firstItem)))
 
         except:
 
@@ -87,56 +81,56 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
                 # Since it is not a series it must be a movie, set the firstItem xPath to match that of a movie
                 print('Trying to get the url of a movie...')
                 firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li/a'
-                
-                ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
-        
+
+                _ = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located(
+                    (webdriver.common.by.By.XPATH, firstItem)))
+
             except:
                 # It can be a yota case, so set the correct xpath
                 print('Trying to get the url for yota...')
                 firstItem = '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li[1]/a'
-                
-                ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
-        
+
+                _ = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located(
+                    (webdriver.common.by.By.XPATH, firstItem)))
+
         time.sleep(3)
 
-
         # Search for urls - starting from the 1st url on page
-        for i in range(1,nEpisodes+2):
+        for i in range(1, nEpisodes+2):
 
             try:
 
                 # find and append the url in a list
-                url = self.driver.find_element_by_xpath('//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li[%d]/a' %(i)).get_attribute('href')
+                url = self.driver.find_element_by_xpath(
+                    '//*[@id="__layout"]/div/div[1]/section/main/div[2]/div[3]/ul/li[%d]/a' % (i)).get_attribute('href')
                 urls.append(url)
-            
+
                 if __name__ == '__main__':
                     print(url)
 
             except:
 
-                if i !=1:
+                if i != 1:
                     break
                 else:
                     continue
-                
-        
 
-        #  Go to each url and get the raw url 
+        #  Go to each url and get the raw url
         for url in urls:
 
             try:
 
                 # go to the url
                 self.driver.get(url)
-                
 
                 # wait for the first item to load
-                ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, firstItem)))
+                _ = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located(
+                    (webdriver.common.by.By.XPATH, firstItem)))
                 time.sleep(5)
-             
-                
+
                 # get the raw URL
-                rawUrl = self.driver.find_element_by_xpath('//*[@id="__layout"]/div/div[1]/section/div/div/video').get_attribute('src')
+                rawUrl = self.driver.find_element_by_xpath(
+                    '//*[@id="__layout"]/div/div[1]/section/div/div/video').get_attribute('src')
                 rawUrls.append(rawUrl)
 
                 if __name__ == '__main__':
@@ -146,81 +140,24 @@ class Moe(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.common.by.
                 print(e)
 
         # return two lists, one with the mp4 urls and another with their respective 'referers'
-        return rawUrls,urls
+        return rawUrls, urls
 
-    def read_file(self):
-
-        # open the json file containing all the anime's names and urls
-        with open('Animes.json', 'r') as file:
-
-            jsonData = json.loads(file.read())
-
-        # return the json data
-        return jsonData
-
-    def finish(self):
+    def finish(self) -> None:
+        """Method to close and correctly quit the chrome driver
+        """
 
         # close the webdriver
         self.driver.quit()
 
 
-#################################################################################
-def save_urls(Id:int,url:str):
-
-    # Create an instance of the class Moe
-    twistMoe = Moe()
-    
-    try:
-
-        # Try to get a maximum of 100 urls
-        rawAnimeUrls,AnimeUrls = twistMoe.get_raw_urls(url, 100)
-
-        # Creats a dictionary, so we can use json.dumps to format and save it
-        jsonDic = [ {'url': url, 'rawUrl': rawUrl} for url,rawUrl in zip(AnimeUrls,rawAnimeUrls)]
-
-        # format the filename 
-        path = '/Users/pedrocruz/Desktop/Programming/Python/Git/TwistMoeAPI/AnimeInfo/'
-
-        if Id < 10:
-            sId = '000'+str(Id)
-        
-        elif Id <100:
-            sId = '00' + str(Id)
-
-        elif Id <1000:
-            sId = '0'+str(Id)
-        else:
-            sId = str(Id)
-
-        path = path+sId+'.json'
-
-        # Save the file
-        with open(path, 'w') as file:
-
-            file.write(json.dumps(jsonDic, indent=4))
-
-    except Exception as e:
-        print(e)
-
-    # Close the driver 
-    twistMoe.finish()
-
-def save_data(path:'the path for the json file'):
-
-    # Create an instance of the Moe class
-    moe = Moe()
-
-    # get the data
-    data = moe.get_all_animes_in_database()
-
 if __name__ == '__main__':
-    
+
     # Creates an instance of the Moe class
-    twistMoe = Moe()
-    
+    twistMoe = Moe(driverPath='/Applications/chromedriver')
+    # animes = twistMoe.get_all_animes_in_database()
+    print(twistMoe.get_raw_urls('https://twist.moe/a/high-school-fleet/1', 3))
 
     # clean up and close the webdriver
     twistMoe.finish()
-    
-    
+
     # /media/pi/PEDRO CRUZ/AnimeInfo
