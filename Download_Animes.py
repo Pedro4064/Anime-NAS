@@ -37,7 +37,7 @@ def download_episode():
     episodes_numbers = episodes_numbers[1:]
 
     # Change to the correct directory 
-    os.chdir('/animes/%s' %(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','')))
+    os.chdir('/animes/%s' %(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','').replace('?','I')))
 
     # Set up the session config
     session = requests.Session()
@@ -51,7 +51,7 @@ def download_episode():
         response = session.get(mp4_url,stream=True)
         
         # format the file name
-        file_name = anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','')+'_'+str(episode_number)+'.mp4'
+        file_name = anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','').replace('?','I')+'_'+str(episode_number)+'.mp4'
         
 
         # Create the .mp4 file and write binary content
@@ -120,11 +120,11 @@ def download_all_episodes_from_id(incomming_anime_id):
     os.chdir('/animes')
 
     # Make a directory for the new anime
-    os.system('mkdir "%s" ' %(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','')))
+    os.system('mkdir "%s" ' %(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','').replace('?','I')))
 
     # change to the new directory
-    os.chdir(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':',''))
-    static_path = 'Animes/'+anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','')+'/%s'
+    os.chdir(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','').replace('?','I'))
+    static_path = 'Animes/'+anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','').replace('?','I')+'/%s'
 
     
     # Create 3 threads to download 3 episodes Cconcurrently
