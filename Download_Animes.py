@@ -13,8 +13,9 @@ mp4_urls = []
 referers = []
 anime_data = {}
 
+
 def download_episode():
-    
+
     global mp4_urls
     global referers
     global anime_data
@@ -22,7 +23,7 @@ def download_episode():
     global static_path
     global anime_id
 
-    # Check to see if there are more episodes to download, if not, exit the function 
+    # Check to see if there are more episodes to download, if not, exit the function
     if len(mp4_urls) == 0:
         return "[DONE]"
 
@@ -36,31 +37,29 @@ def download_episode():
     episode_number = episodes_numbers[0]
     episodes_numbers = episodes_numbers[1:]
 
-    # Change to the correct directory 
-    os.chdir('/animes/%s' %(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','').replace('?','I')))
+    # Change to the correct directory
+    os.chdir('/animes/%s' % anime_id)
 
     # Set up the session config
     session = requests.Session()
-    session.headers.update({'referer':referer})
+    session.headers.update({'referer': referer})
 
     # A Bool to determine if the download was successful
     done = False
     while done == False:
 
         # Make a request to the url
-        response = session.get(mp4_url,stream=True)
-        
+        response = session.get(mp4_url, stream=True)
+
         # format the file name
-        file_name = anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','').replace('?','I')+'_'+str(episode_number)+'.mp4'
-        
+        file_name = anime_id+'_'+str(episode_number)+'.mp4'
 
         # Create the .mp4 file and write binary content
-        with open(file_name,'wb') as video_file:
+        with open(file_name, 'wb') as video_file:
 
             # Iterate through the contect so not everything is stored in memory at once
             for chunk in response.iter_content(512):
                 video_file.write(chunk)
-
 
         # Check to see the size of the file, if it is too small and error happened
         if os.path.getsize(file_name) < 10000:
@@ -70,20 +69,21 @@ def download_episode():
         else:
             done = True
 
-        
         # Get the tools to access the database
-        database,MyCursor = Anime_NAS.sql_connector()
+        database, MyCursor = Anime_NAS.sql_connector()
 
         # Update the database
-        MyCursor.execute("INSERT INTO Downloads(anime_id,episode_number,file_path) VALUES(%s,%d,'%s')" %(anime_id,episode_number,static_path %(file_name)))
+        MyCursor.execute("INSERT INTO Downloads(anime_id,episode_number,file_path) VALUES(%s,%d,'%s')" % (
+            anime_id, episode_number, static_path % (file_name)))
         database.commit()
 
     # Use recursion to make the thread call itself and download any other episodes
     download_episode()
 
+
 @app.route('/download_anime/anime_id=<incomming_anime_id>')
 def download_all_episodes_from_id(incomming_anime_id):
-        
+
     global mp4_urls
     global referers
     global anime_data
@@ -92,53 +92,53 @@ def download_all_episodes_from_id(incomming_anime_id):
     global static_path
 
     anime_id = incomming_anime_id
+
     # Create an instace of the moe class
     twist_moe = Moe.Moe()
 
     # Get the tools to access the database
-    database,MyCursor = Anime_NAS.sql_connector()
-
+    database, MyCursor = Anime_NAS.sql_connector()
 
     # Get the url from the anime
-    MyCursor.execute('SELECT main_url,anime_title FROM Animes WHERE anime_id = %s' %(anime_id))
+    MyCursor.execute(
+        'SELECT main_url,anime_title FROM Animes WHERE anime_id = %s' % (anime_id))
+
     raw_data = MyCursor.fetchall()
-    anime_data = Anime_NAS.convert_tuple(data=raw_data,keys=['main_url','anime_title'],return_type='DICT')
 
+    anime_data = Anime_NAS.convert_tuple(
+        data=raw_data, keys=['main_url', 'anime_title'], return_type='DICT')
 
-    print(json.dumps(anime_data,indent=4))
+    print(json.dumps(anime_data, indent=4))
 
     # Get two lists, one with the raw urls and another with their referers
-    mp4_urls,referers = twist_moe.get_raw_urls(url=anime_data['main_url'],nEpisodes=1000)
-    episodes_numbers = range(1,len(referers)+1)
+    mp4_urls, referers = twist_moe.get_raw_urls(
+        url=anime_data['main_url'], nEpisodes=1000)
+    episodes_numbers = range(1, len(referers)+1)
 
     # clear the webdriver
     twist_moe.finish()
-    print(json.dumps(mp4_urls,indent = 4))
-    print(json.dumps(referers,indent = 4))
-       
-    # Change to the correct directory 
+    print(json.dumps(mp4_urls, indent=4))
+    print(json.dumps(referers, indent=4))
+
+    # Change to the correct directory
     os.chdir('/animes')
 
-    # Make a directory for the new anime
-    os.system('mkdir "%s" ' %(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','').replace('?','I')))
+    # Make a directory for the new anime, the directory name will be the anime ID
+    os.system('mkdir "%s" ' % (anime_id))
 
     # change to the new directory
-    os.chdir(anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','').replace('?','I'))
-    static_path = 'Animes/'+anime_data['anime_title'].replace('.','_').replace('/','_').replace(':','').replace('?','I')+'/%s'
+    os.chdir(anime_id)
+    static_path = 'Animes/'+anime_id+'/%s'
 
-    
     # Create 3 threads to download 3 episodes Cconcurrently
     threads = []
     for i in range(3):
 
         threads.append(threading.Thread(target=download_episode))
         threads[i].start()
-        
-    # download_episode()
-    # for thread in threads:
-    #     thread.join()
-        
-    return 'DOWNLOADING %s' %(anime_data['anime_title'])
+
+    return 'DOWNLOADING %s' % (anime_data['anime_title'])
+
 
 if __name__ == '__main__':
 
