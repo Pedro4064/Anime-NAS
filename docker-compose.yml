@@ -56,10 +56,12 @@ services:
         season_anime_update:
                 image: pedro4064/anime_nas_season_anime_update
                 container_name: season_anime_update
+                volumes: 
+                        - /home/pi/Documents/Docker/Anime-NAS:/scripts
                 depends_on:
                         - anime_database
                 ports: 
-                        - "8080:8080"
+                        - "8080:80"
 
         add_previously_downloaded_anime:
                 image: pedro4064/add_previously_downloaded_anime
